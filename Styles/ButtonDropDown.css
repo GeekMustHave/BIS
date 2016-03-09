@@ -1,0 +1,37 @@
+﻿/* For the DropDown Button and it's items*/
+.customDivDropDownBtn {
+}
+
+.customDivDropDownBtn:hover .customBtnDropDown {
+    display: block;
+}
+
+.customDivDropDownBtn .customBtnDropDown {
+    display: none;
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+    border: 2px solid #DCDCDC;
+    border-top: 1px solid #DCDCDC;
+    background-color: #fff;
+    z-index: 999;
+    position: absolute;
+    white-space: nowrap;
+}
+
+.customDivDropDownBtn .customBtnDropDown li {
+    padding: 5px 3px 5px 3px;
+    margin: 0;
+    width: auto !important;
+    border: 1px solid #fff;
+    text-align: left;
+}
+
+.customDivDropDownBtn .customBtnDropDown li:hover {
+    cursor: pointer;
+    background-color: #DCDCDC;
+}
+
+.customDivDropDownBtn .customBtnDropDown li a {
+    text-transform: none;
+}

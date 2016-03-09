@@ -1,0 +1,55 @@
+﻿/*
+/// Description: This CSS is used For Styling Popup to Copy Paste Image from Clip Board.
+/// History:
+/// -------------------------------------------------------------------------------
+/// Date:               Name                    Description
+/// --------------------------------------------------------------------------------
+/// 7/10/2015           simpsong                Intial Creation
+*/
+
+.demo
+{
+    border: 1px solid #999;
+    margin: 1em 0 0;
+    padding: 0.5em;
+    /*width: 100%;*/
+    height: 350px;
+    color: Gray;
+    text-align: center;
+    line-height: 350px;
+}
+.pastable
+{
+    box-shadow: 0 0 3px black;
+}
+.pastable:hover
+{
+    box-shadow: 0 0 3px black;
+}
+.result
+{
+    border: 1px solid #999;
+    margin: 1em 0 0;
+    padding: 0.5em;
+    /*width: 100%;*/
+    overflow: scroll;
+}
+.spanButton
+{
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+    box-sizing: border-box;
+    color: #333;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0 0.1em;
+    min-width: 2em;
+    padding: 0.1em 0.6em;
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
+    vertical-align: bottom;
+}

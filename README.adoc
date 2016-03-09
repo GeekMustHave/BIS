@@ -1,0 +1,32 @@
+= Build It Simple (BIS)
+John HR Schuster <JOHN.schuster@PhoenixWorkgroup.com>
+V2.1b, 01/10/2015:Project
+
+Built It Simple (BIS) is a web application to help business analysts in managing a number of documentation elements required for the http://www.michigan.gov/suite[State of Michigan SUITE] documentation.
+It is written in .Net and C# using a SQL server 2012 database as the datasource.
+
+Much of the design and schema of the BIS application has been borrowed from the http://www.sparxsystems.com/[EA Sparx] project.
+Some design elements were borrowed from https://www.atlassian.com/[Atlassian Product set]
+
+== Design overview.
+
+This is a minimimalist project.  Minimum Viable Product (MVP) to satisify the State of Michigan SUITE and other department  documentation requirements.
+
+.Functional areas
+
+* Projects and packages
+* Requirements for packages
+* Use cases for packages
+* Basic, Alternative and exception use case flows
+* Business rules
+* Error messages with library
+* Page definitions with mockups and field definitions
+* Test cases with QAT or UAT review audits
+
+== Additional updates to GIT
+
+These items are intended to help complete the basic implementation of the application on other systems.
+
+* SQL Server 2012 Create script, Database, Tables, Views and Stored Procedures
+* SQL Server 2012 Basic load, Status and codes
+* JIRA Issue track logs for application updates and sprints.

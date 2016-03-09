@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="BISMaster.master.cs" Inherits="BISMaster" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="AjaxControlToolkit" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+    <title></title>
+    <link rel="shortcut icon" href="<%=this.ResolveUrl("~/Images/favicon.ico?v=2")%>" />
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <!-- Just to Keep the Session Alive as long as the app is opened in the user's browser. check init code -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- NOtify Js is used for custom notifications for the user- which dissapears after few seconds -->
+    <script type="text/javascript" src="Plugins/notifIt/notifIt.js"></script>
+    <link rel="stylesheet" type="text/css" href="Plugins/notifIt/notifIt.css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+    <AjaxControlToolkit:ToolkitScriptManager ID="scriptManager" runat="server" CombineScripts="true"
+        ScriptMode="Release">
+    </AjaxControlToolkit:ToolkitScriptManager>
+    <asp:SiteMapDataSource ID="SiteMapDS" runat="server" ShowStartingNode="false" SiteMapProvider="DefaultProvider" />
+    <div class="page">
+        <div class="header">
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <%--<div class="title">
+                            <asp:Image ID="Image2" runat="server" ImageUrl="~/Images/BIS_Logo.png" Height="25px"
+                                Width="25px" AlternateText="BIS Application" />
+                        </div>--%>
+                        <div id="outerDiv">
+                            <div class="hideSkiplink">
+                                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false"
+                                    DataSourceID="SiteMapDS" IncludeStyleBlock="false" Orientation="Horizontal" Visible="true"
+                                    StaticDisplayLevels="1" MaximumDynamicDisplayLevels="9" OnMenuItemDataBound="NavigationMenu_MenuItemDataBound">
+                                </asp:Menu>
+                            </div>
+                            <div style="float: right;" dir="rtl">
+                                <asp:Menu ID="AccountMenu" runat="server" CssClass="menu" EnableViewState="false"
+                                    Visible="false" IncludeStyleBlock="False" Orientation="Horizontal" OnMenuItemClick="AccountMenu_MenuItemClick">
+                                    <Items>
+                                        <asp:MenuItem ImageUrl="~/Images/BIS_PreImage.png" Selectable="false"
+                                            ToolTip="Settings">
+                                            <asp:MenuItem NavigateUrl="~/Admin/IssueTrack.aspx" Text="Issue Track" ToolTip="Issue Track Page" />
+                                            <asp:MenuItem Text="Log Out" ToolTip="Click to Logout" Value="logout"></asp:MenuItem>
+                                        </asp:MenuItem>
+                                    </Items>
+                                </asp:Menu>
+                            </div>
+                        </div>
+                        <div class="loginDisplay" id="sss">
+                            <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                                <AnonymousTemplate>
+                                    <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Please log in</a>
+                                </AnonymousTemplate>
+                                <LoggedInTemplate>
+                                    <%--<img align="right" style="height: 25px; width: 25px;" alt="hover to get to logout" 
+                                            src="Images/GearBox.png" id="optionsMenuTree">--%>
+                                    <span>Welcome</span> <span class="bold">
+                                        <asp:Label ID="lblUserFullName" runat="server" Text=""></asp:Label>
+                                    </span>!
+                                    <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="[ Log Out ]"
+                                        LogoutPageUrl="~/Packages.aspx" Visible="false" />
+                                </LoggedInTemplate>
+                            </asp:LoginView>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="welcomeMessage">
+                            <span>&nbsp; Welcome to Optum Build it Simple (BIS) documentation application.</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+    </form>
+</body>
+</html>

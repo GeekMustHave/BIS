@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title="" roles="*">
+    <siteMapNode url="" title=""  description="Build it Simple" roles="*" imageUrl="~/Images/BIS_logo_25X25.png">
+      <!--<siteMapNode url="~/Admin/IssueTrack.aspx" title="Issue Track" description="Issue Track Page" roles="Open,Admin"></siteMapNode>-->
+    </siteMapNode>
+    <siteMapNode url="~/Packages.aspx" title="Packages" description="Build it Simple" roles="Open,Admin"/>
+    <siteMapNode url="~/Requirements.aspx" title="Requirements"  description="Requirements Page" roles="Open,Admin"/>
+    <siteMapNode url="~/UseCases.aspx" title="Use-Case" description="Use-Case Page" roles="Open,Admin"/>
+    <siteMapNode url="~/Admin/Reports.aspx" title="Reports" description="Reports Page" roles="Open,Admin"/>
+    <siteMapNode url="" title="Admin" description="Admin Menu" roles="Admin" >
+      <siteMapNode url="~/Admin/Manage.aspx" title="Manage Stuff" description="Admin Manage Page" roles="Admin"/>
+      <siteMapNode url="~/Admin/Manage.aspx?q=21" title="Manage Stuff" description="Admin Manage Page" roles="Admin"/>
+      <siteMapNode url="~/Admin/Manage.aspx?q=2123" title="Admin 2" description="Admin Manage Page" roles="Admin"/>
+      <siteMapNode url="~/Admin/Manage.aspx?q=2124" title="Admin 3" description="Admin Manage Page" roles="Admin"/>
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>
