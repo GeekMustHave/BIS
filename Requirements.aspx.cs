@@ -47,6 +47,7 @@ public partial class Requirements : System.Web.UI.Page
                 }
             }
             // Bind the Custom Button Dopdown for reports
+            btnDropDownReports.AddReportToDropDown("Orphaned Requirements Report", "~/ReportPages/OrphanedRequirementsReport.aspx");
             btnDropDownReports.AddReportToDropDown("RVD-Requirement Validation Document", "~/RVDReport.aspx");
             btnDropDownReports.AddReportToDropDown("RTM-Requirement Traceability Matrix", "~/RTMReport.aspx");
         }
