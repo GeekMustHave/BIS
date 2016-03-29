@@ -86,10 +86,22 @@ public partial class Requirements : System.Web.UI.Page
                 case "CreateRequirement":
                     try
                     {
+                        string newreqirementId = "";
+
                         //Create requirement. and rebind the grid to update the created one.
-                        Requirement.CreateRequirementDetail(Session["svSelectedPackage"].ToString(), txtReqTitle.Text.Trim(),
+                        newreqirementId = Requirement.CreateRequirementDetail(Session["svSelectedPackage"].ToString(), txtReqTitle.Text.Trim(),
                             Server.HtmlDecode(htmlEditorCreateUpdateReqNotes.Text),
                             ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
+                        //Update the Labels after creating the Requirement
+                        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                        if (!(HttpContext.Current.Session["EmptyLabelsForNewReq"] == null))
+                        {
+                            dictionary = (Dictionary<string, string>)HttpContext.Current.Session["EmptyLabelsForNewReq"];
+                            foreach (var item in dictionary.ToList())
+                            {
+                                Requirement.AddRemoveLabesForRequirement(newreqirementId, "select", item.Key);
+                            }
+                        }
                         mpCreateUpdateReq.Hide();
                         BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
                         updatePanelReq.Update();
@@ -268,7 +280,42 @@ public partial class Requirements : System.Web.UI.Page
         /*actinEvent will be select or unselect  - check javascript code*/
         try
         {
-            Requirement.AddRemoveLabesForRequirement(currentReqID, actionEvent, tagName);
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (string.IsNullOrEmpty(currentReqID.Trim()))
+            {
+                if (actionEvent.Equals("select"))
+                {
+                    if (HttpContext.Current.Session["EmptyLabelsForNewReq"] == null)
+                    {
+                        dictionary.Add(tagName, tagName);
+                        HttpContext.Current.Session["EmptyLabelsForNewReq"] = dictionary;
+                    }
+                    else
+                    {
+                        dictionary = (Dictionary<string, string>)HttpContext.Current.Session["EmptyLabelsForNewReq"];
+                        dictionary.Add(tagName, tagName);
+                        HttpContext.Current.Session["EmptyLabelsForNewReq"] = dictionary;
+                    }
+                }
+                else if (actionEvent.Equals("unselect"))
+                {
+                    if (HttpContext.Current.Session["EmptyLabelsForNewReq"] == null)
+                    {
+                        //HttpContext.Current.Session["EmptyLabelsForNewReq"] = tagName;
+                    }
+                    else
+                    {
+                        dictionary = (Dictionary<string, string>)HttpContext.Current.Session["EmptyLabelsForNewReq"];
+                        if (dictionary.ContainsKey(tagName))
+                        {
+                            dictionary.Remove(tagName);
+                        }
+                        HttpContext.Current.Session["EmptyLabelsForNewReq"] = dictionary;
+                    }
+                }
+            }
+            else
+                Requirement.AddRemoveLabesForRequirement(currentReqID, actionEvent, tagName);
             return "Successful!";
         }
         catch (Exception ex)
@@ -495,7 +542,11 @@ public partial class Requirements : System.Web.UI.Page
         hfCurentReqId.Value = string.Empty;
         trReqDetails.Visible = true;
         trReqAdditionals.Visible = false;
-        trReqLabels.Visible = false;
+
+        HttpContext.Current.Session.Remove("EmptyLabelsForNewReq");
+        trReqLabels.Visible = true;
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "CallIntialLoadForLabels", "initBindLabels('')", true);
+
         txtReqTitle.Text = String.Empty;
         lblReqVersion.Text = "0";
         lblReqCreatedDate.Text = DateTime.Now.ToString();

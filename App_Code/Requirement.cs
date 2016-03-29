@@ -66,8 +66,9 @@ public class Requirement
         db.AddInParameter(cmd, "sCreatedBy", DbType.String, updatedbyUId);
         db.ExecuteNonQuery(cmd);
     }
-    public static void CreateRequirementDetail(string packageGuid, string reqName, string notes, string updatedbyUId)
+    public static string CreateRequirementDetail(string packageGuid, string reqName, string notes, string updatedbyUId)
     {
+        string newRequirementGuid = string.Empty;
         Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
         DbCommand cmd = db.GetStoredProcCommand("spReqDetailNew");
 
@@ -75,7 +76,17 @@ public class Requirement
         db.AddInParameter(cmd, "sName", DbType.String, reqName);
         db.AddInParameter(cmd, "sNote", DbType.String, notes);
         db.AddInParameter(cmd, "sCreatedBy", DbType.String, updatedbyUId);
-        db.ExecuteNonQuery(cmd);
+        DataTable dt = db.ExecuteDataSet(cmd).Tables[0];
+        try
+        {
+            if (dt.Rows.Count > 0)
+                newRequirementGuid = dt.Rows[0]["ReqGuid"].ToString();
+        }
+        catch (Exception)
+        {
+
+        }
+        return newRequirementGuid;
     }
     public static void AddRemoveLabesForRequirement(string currentReqID, string actionEvent, string tagName)
     {
