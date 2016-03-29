@@ -47,9 +47,7 @@ public partial class Requirements : System.Web.UI.Page
                 }
             }
             // Bind the Custom Button Dopdown for reports
-            btnDropDownReports.AddReportToDropDown("Orphaned Requirements Report", "~/ReportPages/OrphanedRequirementsReport.aspx");
-            btnDropDownReports.AddReportToDropDown("RVD-Requirement Validation Document", "~/RVDReport.aspx");
-            btnDropDownReports.AddReportToDropDown("RTM-Requirement Traceability Matrix", "~/RTMReport.aspx");
+            BindReportsDropDown();
         }
     }
 
@@ -60,6 +58,8 @@ public partial class Requirements : System.Web.UI.Page
         PrepareReqCreate();
         upCreateUpdateReq.Update();
         mpCreateUpdateReq.Show();
+        //Due ot some post back issue .reports needs to be rebinded.
+        BindReportsDropDown();
     }
     protected void btnReorderReq_Click(object sender, EventArgs e)
     {
@@ -72,8 +72,10 @@ public partial class Requirements : System.Web.UI.Page
     {
         //Refresh button click. REbind the Requiremnts list and make the search text box to foucs.
         BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+        //Due ot some post back issue .reports needs to be rebinded.
+        BindReportsDropDown();
         //txtSearchReq.Focus();
-        //updatePanelReq.Update();
+        updatePanelReq.Update();
     }
     protected void btnCreateUpdateReq_Click(object sender, EventArgs e)
     {
@@ -107,6 +109,8 @@ public partial class Requirements : System.Web.UI.Page
                         updatePanelReq.Update();
                         string msg = "Requirement  Created Succesfully. <br />  This message will disappear in 5 seconds.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "DisplayNotif", "DisplayNotification('" + msg + "', 'success')", true);
+                        BindReportsDropDown();
+                        updatePanelReq.Update();
                     }
                     catch (Exception ex)
                     {
@@ -127,6 +131,9 @@ public partial class Requirements : System.Web.UI.Page
                         updatePanelReq.Update();
                         string msg = "Succesfully Updated Requirement. <br />  This message will disappear in 5 seconds.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "DisplayNotif", "DisplayNotification('" + msg + "', 'success')", true);
+                        //Due ot some post back issue .reports needs to be rebinded.
+                        BindReportsDropDown();
+                        updatePanelReq.Update();
                     }
                     catch (Exception ex)
                     {
@@ -407,6 +414,8 @@ public partial class Requirements : System.Web.UI.Page
                 mpViewReqHist.Show();
             }
         }
+        //Due ot some post back issue .reports needs to be rebinded.
+        BindReportsDropDown();
     }
 
     protected void DataListRequirements_ItemDataBound(object sender, DataListItemEventArgs e)
@@ -501,6 +510,13 @@ public partial class Requirements : System.Web.UI.Page
     #endregion
 
     #region "Supporting sub routines"
+    private void BindReportsDropDown()
+    {        
+        btnDropDownReports.AddReportToDropDown("Orphaned Requirements Report", "~/ReportPages/OrphanedRequirementsReport.aspx");
+        btnDropDownReports.AddReportToDropDown("RVD-Requirement Validation Document", "~/RVDReport.aspx");
+        btnDropDownReports.AddReportToDropDown("RTM-Requirement Traceability Matrix", "~/RTMReport.aspx");
+    }
+
     private void BindReqListDetailed(string eaguid, string searchText)
     {
         DataListRequirements.DataSource = Requirement.GetRequestListDetailed(eaguid, searchText);
