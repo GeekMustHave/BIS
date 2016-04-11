@@ -38,9 +38,13 @@
       </buildProviders>
     </compilation>
     <authentication mode="Forms">
-      <forms loginUrl="Account/Login.aspx" defaultUrl="Packages.aspx" slidingExpiration="true" timeout="20"/>
+      <forms loginUrl="Account/Login.aspx" defaultUrl="Packages.aspx" slidingExpiration="true" timeout="240"/>
     </authentication>
-    <sessionState timeout="20" cookieless="false" mode="InProc"/>
+    <sessionState timeout="240" cookieless="false" mode="InProc"/>
+	<machineKey
+		validationKey="YOUR_AUTO_GENERATED_KEY"
+		decryptionKey="YOUR_AUTO_GENERATED_KEY"
+		validation="SHA1" decryption="AES" />
     <authorization>
       <deny users="?"/>
       <allow users="*"/>

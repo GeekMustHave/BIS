@@ -172,4 +172,24 @@ public class Common
         HttpContext.Current.Session.Remove("svReportRVD");
         HttpContext.Current.Session.Remove("svReportUCD");        
     }
+    public static string PersistsCurrentUsrInfoNRetnRoles(string usrName)
+    {        
+        DataTable dtUsrInfo = Common.GetCurrentUserInfo(usrName).Tables[0];
+        CurrentUser usr;
+        string usrRoles = string.Empty;
+        if (dtUsrInfo.Rows.Count == 0)
+        {
+            usr = new CurrentUser();
+        }
+        else
+        {
+            usrRoles = dtUsrInfo.Rows[0]["Roles"].ToString().Trim();
+            usr = new CurrentUser(dtUsrInfo.Rows[0]["User_GUID"].ToString().Trim(), dtUsrInfo.Rows[0]["FirstName"].ToString().Trim(),
+                                  dtUsrInfo.Rows[0]["Surname"].ToString().Trim(), dtUsrInfo.Rows[0]["E_Mail"].ToString().Trim(),
+                                  (string.IsNullOrEmpty(usrRoles)) ? "Open" : usrRoles);
+
+        }
+
+        return usrRoles;
+    }
 }

@@ -25,7 +25,7 @@ public partial class BISMaster : System.Web.UI.MasterPage
         {
             string KeepSessionPageUrl = this.ResolveClientUrl("~/keepSessionAlive.aspx");
             Page.ClientScript.RegisterClientScriptInclude("keepSessionAlive", this.ResolveClientUrl("~/Scripts/keepSessionAlive.js"));
-            Page.ClientScript.RegisterStartupScript(GetType(), "SessionKeepAlive", "SessionKeepAlive.start(" + (HttpContext.Current.Session.Timeout - 1).ToString() + ", '"+ KeepSessionPageUrl +"');", true);            
+            Page.ClientScript.RegisterStartupScript(GetType(), "SessionKeepAlive", "SessionKeepAlive.start(" + (HttpContext.Current.Session.Timeout - 1).ToString() + ", '" + KeepSessionPageUrl + "');", true);            
         }
         if (HttpContext.Current.User.Identity.IsAuthenticated) AccountMenu.Visible = true;
     }
@@ -37,9 +37,19 @@ public partial class BISMaster : System.Web.UI.MasterPage
             Label fullName = (Label)HeadLoginView.FindControl("lblUserFullName");
             fullName.Text = ((CurrentUser)CurrentUser.GetUserDetails()).FullName;
             if (string.IsNullOrEmpty(fullName.Text.Trim()))
-            {
+            {                
                 //Some thing is wrong. Redurect to login page.
-                LogoutUser();
+                // its just that session is expired.
+                //REdo the session and store the old CurrentUser object to session again.user id is found in httpcontet current user identity name
+                try
+                {
+                    Common.PersistsCurrentUsrInfoNRetnRoles(HttpContext.Current.User.Identity.Name);
+                }
+                catch (Exception)
+                {
+                    LogoutUser();
+                }                
+                fullName.Text = HttpContext.Current.User.Identity.Name;                
             }
         }
     }
@@ -68,6 +78,8 @@ public partial class BISMaster : System.Web.UI.MasterPage
 
     private void LogoutUser()
     {
+        //clear any other tickets that are already in the response
+        Response.Cookies.Clear(); 
         FormsAuthentication.SignOut();
         FormsAuthentication.RedirectToLoginPage();
     }
