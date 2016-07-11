@@ -47,7 +47,7 @@ public partial class UCDocumentReport : System.Web.UI.Page
     protected void btnRunReport_Click(object sender, EventArgs e)
     {
         CrystalReportHelper crHelper = new CrystalReportHelper();
-        CrystalReportViewer1.ReportSource = crHelper.PrepareReportSource("~/Reports/UC_FlowStepDocument.rpt");
+        CrystalReportViewer1.ReportSource = crHelper.PrepareReportSource("~/Reports/UC_FlowStepDocument06.rpt");
         crHelper.AddParamater("@sPackage_GUID", ddlPackage.SelectedValue.ToString());
         //crHelper.AddParamater("VersionDesc", txtSubTitle.Text.Trim());
         CrystalReportViewer1.ParameterFieldInfo = crHelper.ParameterFieldInfo();

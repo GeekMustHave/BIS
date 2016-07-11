@@ -20,11 +20,9 @@ using System.Web.UI.HtmlControls;
 /// 7/10/2015           JHRS                Intial Creation 
 /// </summary>
 public partial class Admin_IssueTrack : System.Web.UI.Page
-{
-    static string jiraUserId = System.Web.Configuration.WebConfigurationManager.AppSettings["JIRAClientID"].ToString();
-    static string jiraPassword = System.Web.Configuration.WebConfigurationManager.AppSettings["JIRAClientPassword"].ToString();
+{    
 
-    JiraITClient.JiraClient jClient = new JiraClient("https://phoenixworkgroup.atlassian.net", jiraUserId, jiraPassword);
+    JiraITClient.JiraClient jClient = new JiraClient();
     /// <summary>
     /// Property to store Issue track grid sort direction
     /// </summary>
