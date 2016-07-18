@@ -5,7 +5,7 @@
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
 <%@ Register TagPrefix="CustomButtonDropDown" TagName="ButtonDropDown" Src="~/Plugins/UserControls/buttonDropDown.ascx" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
-    <link href="Styles/bootstrap.css" rel="stylesheet" type="text/css" />    
+    <link href="Styles/bootstrap.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css?vv=11"
         rel="stylesheet" />
@@ -51,9 +51,9 @@
             color: #034af3;
         }
 
-        .browselinkcss:hover {
-            text-decoration: underline;
-        }
+            .browselinkcss:hover {
+                text-decoration: underline;
+            }
 
         .image-drop-zone__drop-icon::before {
             background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjI1cHgiIGhlaWdodD0iMjFweCIgdmlld0JveD0iMCAwIDI1IDIxIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHNrZXRjaDp0eXBlPSJNU1BhZ2UiPgogICAgICAgIDxnIGlkPSIwNV9Ecm9wem9uZS0oQ0EpLS0tdXBsb2FkZWQiIHNrZXRjaDp0eXBlPSJNU0FydGJvYXJkR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMTMuMDAwMDAwLCAtNjQ1LjAwMDAwMCkiIGZpbGw9IiM3MDcwNzAiPgogICAgICAgICAgICA8ZyBpZD0iSXNzdWUtQXR0YWNobWVudHMiIHNrZXRjaDp0eXBlPSJNU0xheWVyR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwLjAwMDAwMCwgNjAyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IkRyYWctJmFtcDstZHJvcC1lbXB0eS0yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOTMuMDAwMDAwLCA0My4wMDAwMDApIiBza2V0Y2g6dHlwZT0iTVNTaGFwZUdyb3VwIj4KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iY2xvdWQtdXBsb2FkLTIiPgogICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTMuMTI0Nzk3NywxOS42NDc5NDEgTDEzLjEyNDc5NzcsMTEuMDU2MzA2IEwxNS4xNzM3OTIyLDEzLjEzMDYxMDQgQzE1LjQ1NzI5NTcsMTMuNDE2NjYzNiAxNS45MTQzNzI3LDEzLjQxNjY2MzYgMTYuMTk4NzAyNywxMy4xMzA2MTA0IEMxNi40ODEzNzk2LDEyLjg0MzcyMDcgMTYuNDgxMzc5NiwxMi4zODAzNDc5IDE2LjE5ODcwMjcsMTIuMDk0Mjk0NiBMMTIuOTEzMjAzMyw4Ljc2OTU1MjY3IEMxMi44Nzg0ODg2LDguNzM1MjU5NzMgMTIuODQwNDY3Nyw4LjcwNTE0ODg2IDEyLjgwMTYyMDMsOC42NzgzODM2NCBDMTIuNzg1MDg5NSw4LjY2NzUxMDI3IDEyLjc2NzczMjEsOC42NjA4MTg5NyAxMi43NTEyMDEzLDguNjUwNzgyMDEgQzEyLjcyNzIzMTYsOC42MzY1NjI5OSAxMi43MDI0MzU0LDguNjIyMzQzOTcgMTIuNjc2ODEyNyw4LjYxMTQ3MDYgQzEyLjY1NTMyMjYsOC42MDIyNzAwNSAxMi42MzMwMDYsOC41OTcyNTE1OCAxMi42MTE1MTU5LDguNTkxMzk2NjggQzEyLjU4ODM3MjgsOC41ODM4Njg5NyAxMi41NjUyMjk3LDguNTc0NjY4NDIgMTIuNTQxMjYsOC41NzA0ODYzNiBDMTIuNTA0MDY1Nyw4LjU2MjEyMjIzIDEyLjQ2Njg3MTMsOC41NjA0NDk0IDEyLjQyOTY3Nyw4LjU1ODc3NjU3IEMxMi40MTg5MzIsOC41NTg3NzY1NyAxMi40MTA2NjY1LDguNTU1NDMwOTIgMTIuMzk5MDk1LDguNTU1NDMwOTIgQzEyLjM4NzUyMzQsOC41NTU0MzA5MiAxMi4zNzg0MzE1LDguNTU4Nzc2NTcgMTIuMzY2ODU5OSw4LjU1ODc3NjU3IEMxMi4zMzA0OTIxLDguNTYwNDQ5NCAxMi4yOTQxMjQzLDguNTYyOTU4NjQgMTIuMjU4NTgzMSw4LjU3MDQ4NjM2IEMxMi4yMzI5NjAzLDguNTc1NTA0ODQgMTIuMjA4OTkwNiw4LjU4NTU0MTc5IDEyLjE4NDE5NDQsOC41OTMwNjk1MSBDMTIuMTYzNTMwOSw4LjU5OTc2MDgyIDEyLjE0MzY5MzksOC42MDMxMDY0NyAxMi4xMjMwMzA0LDguNjExNDcwNiBDMTIuMDk0OTI4LDguNjIzMTgwMzggMTIuMDY5MzA1Miw4LjYzODIzNTgyIDEyLjA0Mjg1NTksOC42NTQxMjc2NiBDMTIuMDI3OTc4Miw4LjY2MjQ5MTc5IDEyLjAxMzEwMDUsOC42NjgzNDY2OSAxMS45OTgyMjI3LDguNjc3NTQ3MjMgQzExLjk1NzcyMjIsOC43MDUxNDg4NiAxMS45MjA1Mjc5LDguNzM2MDk2MTQgMTEuODg2NjM5Nyw4Ljc3MDM4OTA4IEw4LjYwMTk2NjksMTIuMDk0Mjk0NiBDOC40NjA2Mjg0NCwxMi4yMzczMjEyIDguMzg5NTQ1OTQsMTIuNDI1NTE0MiA4LjM4OTU0NTk0LDEyLjYxMjAzNDMgQzguMzg5NTQ1OTQsMTIuODAwMjI3MiA4LjQ2MDYyODQ0LDEyLjk4NzU4MzcgOC42MDE5NjY5LDEzLjEzMDYxMDQgQzguODg0NjQzODMsMTMuNDE2NjYzNiA5LjM0MjU0NzM5LDEzLjQxNjY2MzYgOS42MjYwNTA4NiwxMy4xMzA2MTA0IEwxMS42NzUwNDUzLDExLjA1NjMwNiBMMTEuNjc1MDQ1MywxOS42NDg3Nzc0IEMxMS42NzUwNDUzLDIwLjA1MzYwMTMgMTEuOTk5MDQ5MywyMC4zODIzMTE2IDEyLjM5ODI2ODQsMjAuMzgyMzExNiBDMTIuODAwNzkzOCwyMC4zODE0NzUyIDEzLjEyNDc5NzcsMjAuMDUzNjAxMyAxMy4xMjQ3OTc3LDE5LjY0Nzk0MSBMMTMuMTI0Nzk3NywxOS42NDc5NDEgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yMC43MDMzNDk2LDYuMjg0NTY5NDUgQzIwLjQ3OTM1NzEsMi45MTQ2NjEyMiAxNy42OTgwNDc1LDAuMjQzMTU3ODk1IDE0LjMxMjUzNjgsMC4yNDMxNTc4OTUgQzEyLjE4MjU0MTMsMC4yNDMxNTc4OTUgMTAuMjEwNDE1MSwxLjMzMzg0MDUzIDkuMDMyNTk0NjIsMy4wNjY4ODg0IEM4LjU1NzMzMzcsMi44NjExMzA3OCA4LjA0MjM5ODgzLDIuNzUyMzk3MDkgNy41MTkxOTg1NiwyLjc1MjM5NzA5IEM1LjUxMzE4NDIyLDIuNzUyMzk3MDkgMy44NTU5NzAwOCw0LjI5MzA2OTk1IDMuNjQyNzIyNTcsNi4yNjYxNjgzNyBDMS42MDE5OTM1Myw3LjA1NzQxNTEzIDAuMjEwMDk4OTUxLDkuMDM4MDQxMjYgMC4yMTAwOTg5NTEsMTEuMzIzOTU4MiBDMC4yMTAwOTg5NTEsMTQuMzIxNjYyNiAyLjYyMDI5MTcsMTYuNzYwNjQzMSA1LjU4MjYxMzY0LDE2Ljc2MDY0MzEgTDkuNjYzMjQ1MTksMTYuNzYwNjQzMSBMOS42NjMyNDUxOSwxNS41MDYwMjM1IEw1LjU4MTc4NzEsMTUuNTA2MDIzNSBDMy4yOTg4ODE2MywxNS41MDYwMjM1IDEuNDQ5MDgzNDksMTMuNjM2NjQwMyAxLjQ0OTA4MzQ5LDExLjMyMzk1ODIgQzEuNDQ5MDgzNDksOS4yNTA0OTAxOCAyLjk0OTI1NDksNy41MzkxODkwNSA0LjkwOTgwOTUsNy4yMTIxNTE1NCBDNC44NzY3NDc4Nyw3LjA0NTcwNTM0IDQuODU4NTYzOTcsNi44NzUwNzcwOCA0Ljg1ODU2Mzk3LDYuNjk5NDMwMzMgQzQuODU4NTYzOTcsNS4yMTE0NTE0OSA2LjA0OTYwOTE1LDQuMDA3MDE2NjggNy41MTkxOTg1Niw0LjAwNzAxNjY4IEM4LjI5ODYyNjQ2LDQuMDA3MDE2NjggOC45OTI5MjA2Niw0LjM1MjQ1NTI4IDkuNDc5NzUzMTUsNC44OTI3NzgxMiBDMTAuMjE0NTQ3OSwyLjkwOTY0Mjc0IDEyLjA5ODIzNDIsMS40OTc3Nzc0OSAxNC4zMTI1MzY4LDEuNDk3Nzc3NDkgQzE3LjE2NTc1NTMsMS40OTc3Nzc0OSAxOS40Nzg0MTYzLDMuODM3MjI0ODMgMTkuNDc4NDE2Myw2LjcyNTM1OTE0IEMxOS40Nzg0MTYzLDYuODkwOTY4OTMgMTkuNDcxODAzOSw3LjA1NjU3ODcxIDE5LjQ1NDQ0NjYsNy4yMTg4NDI4NSBDMjEuMzc2OTgwMyw3LjU3ODUwMDQ2IDIyLjgzNjY1MTIsOS4yNzU1ODI1NyAyMi44MzY2NTEyLDExLjMyMzk1ODIgQzIyLjgzNjY1MTIsMTMuNjM2NjQwMyAyMC45ODY4NTMxLDE1LjUwNjAyMzUgMTguNzAzOTQ3NiwxNS41MDYwMjM1IEwxNS4wODc4MzE5LDE1LjUwNjAyMzUgTDE1LjA4NzgzMTksMTYuNzYwNjQzMSBMMTguNzAzOTQ3NiwxNi43NjA2NDMxIEMyMS42NjYyNjk2LDE2Ljc2MDY0MzEgMjQuMDc2NDYyMywxNC4zMjE2NjI2IDI0LjA3NjQ2MjMsMTEuMzIzOTU4MiBDMjQuMDc1NjM1OCw5LjA3MzE3MDYxIDIyLjcwNzcxMDksNy4wOTY3MjY1NCAyMC43MDMzNDk2LDYuMjg0NTY5NDUgTDIwLjcwMzM0OTYsNi4yODQ1Njk0NSBaIiBpZD0iU2hhcGUiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==");
@@ -75,7 +75,7 @@
             width: 100%;
             box-sizing: border-box;
             z-index: 1 !important;
-        }        
+        }
     </style>
     <script type="text/javascript">
         //On page load
@@ -154,38 +154,38 @@
             /* function to reorder the dragged list in the grid. */
             function UpdateUpdatePanel() {
                 __doPostBack("<%=upModalReorder.UniqueID %>", "FromJavaScript");
-        }
-        /* Script for LABELs - USEd SELECT2 jquery pligin .. check the website for documentation */
-        /* fucntion to pre load the labels for ths requirement when the edit link is clicked with  show details is checked */
-        /* this javascripot is called from code behind register startup script.. check the code behind for details*/
-        /*  this will call the database as an ajax call and get the labels for the req and binds them when the popup is shwow */
-        function initBindLabels(projGuid) {
-            $.ajax({
-                type: "POST",
-                url: 'Requirements.aspx/GetRequrementLabels',
-                contentType: "application/json; charset=utf-8",
-                //data: "{'currentReqID' :'{d17a1331-2274-4f68-ad37-e46c18e20318}'}",
-                data: "{'currentReqID' :'" + projGuid + "'}",
-                success: function (msg) {
-                    var data = JSON.parse(msg.d);
-                    for (i = 0; i < data.length; i++) {
-                        $('#select2Labelddl').append($("<option/>", {
-                            value: data[i].text,
-                            text: data[i].text,
-                            selected: true
-                        }));
-                        configSelect2Labelddl(projGuid);
-                    }
-                    if (data.length == 0) {
-                        //To configure when no results were found. 
-                        configSelect2Labelddl(projGuid);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
+            }
+            /* Script for LABELs - USEd SELECT2 jquery pligin .. check the website for documentation */
+            /* fucntion to pre load the labels for ths requirement when the edit link is clicked with  show details is checked */
+            /* this javascripot is called from code behind register startup script.. check the code behind for details*/
+            /*  this will call the database as an ajax call and get the labels for the req and binds them when the popup is shwow */
+            function initBindLabels(projGuid) {
+                $.ajax({
+                    type: "POST",
+                    url: 'Requirements.aspx/GetRequrementLabels',
+                    contentType: "application/json; charset=utf-8",
+                    //data: "{'currentReqID' :'{d17a1331-2274-4f68-ad37-e46c18e20318}'}",
+                    data: "{'currentReqID' :'" + projGuid + "'}",
+                    success: function (msg) {
+                        var data = JSON.parse(msg.d);
+                        for (i = 0; i < data.length; i++) {
+                            $('#select2Labelddl').append($("<option/>", {
+                                value: data[i].text,
+                                text: data[i].text,
+                                selected: true
+                            }));
+                            configSelect2Labelddl(projGuid);
+                        }
+                        if (data.length == 0) {
+                            //To configure when no results were found. 
+                            configSelect2Labelddl(projGuid);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
 
-                    if (errorThrown != 'abort') {
-                        // Do something here with the error
-                        $('#<%=lblError.ClientID%>').html(errorMessage);
+                        if (errorThrown != 'abort') {
+                            // Do something here with the error
+                            $('#<%=lblError.ClientID%>').html(errorMessage);
                         alert(textStatus);
                         alert(errorThrown);
                     }
@@ -324,13 +324,13 @@
                         alert(result);
                         //Reload to the same page to get the uploaded image in the datalist.
                         window.location.replace('<%= Page.ResolveUrl("~/Requirements.aspx") %>');
-                },
-                error: function (jqXHR, textStatus, errorMessage) {
-                    //console.log(errorMessage); // Optional
-                    $('#<%=lblError.ClientID%>').html(errorMessage);
+                    },
+                    error: function (jqXHR, textStatus, errorMessage) {
+                        //console.log(errorMessage); // Optional
+                        $('#<%=lblError.ClientID%>').html(errorMessage);
                     alert(errorMessage);
                 }
-            });
+                });
             }
     </script>
     <script type="text/javascript">
@@ -458,6 +458,8 @@
                                         &nbsp;&nbsp;
                                         <asp:CheckBox ID="chkshowDetails" runat="server" Text="Show Details" TextAlign="Left" />
                                         &nbsp;&nbsp;
+                                        <asp:CheckBox ID="chkShowHiddenReq" runat="server" Text="Show Hidden" TextAlign="Left" />
+                                        &nbsp;&nbsp;
                                         <asp:Button ID="btnReferesh" runat="server" Text="Refresh" CssClass="customButton"
                                             OnClick="btnReferesh_Click" />
                                     </div>
@@ -478,6 +480,11 @@
                                     <td style="width: 90%;">
                                         <div style="border-top-style: solid; border-top-width: medium;">
                                         </div>
+                                    </td>
+                                    <td>
+                                        <asp:Button ID="btnHideUnhideReq" ToolTip="Hide/Unhide requirement" runat="server" CommandArgument='<%# Eval("ea_guid") %>'
+                                            CssClass="customButton" Text='<%# Convert.ToInt32(Eval("HiddenFlag")) == 0 ? "Hide" : "UnHide" %>' Width="70px"
+                                            UseSubmitBehavior="false" CommandName='<%# Convert.ToInt32(Eval("HiddenFlag")) == 0 ? "HideRequirement" : "UnHideRequirement" %>'></asp:Button>
                                     </td>
                                     <td>
                                         <asp:Button ID="btnEditProject" ToolTip="Edit" runat="server" CommandArgument='<%# Eval("ea_guid") %>'
@@ -571,7 +578,8 @@
                                                     Browse
                                                     <input type="file" onchange='<%# "OnBrowseSelectedFiles(this.files, \"" + Eval("object_PK") + "\" );" %>'
                                                         style="display: none;" id="fuUploadReqImage" accept="image/*">
-                                                </label><span>or,</span>
+                                                </label>
+                                                <span>or,</span>
                                                 <asp:LinkButton ID="lnkBtnPasteImage" runat="server" Text="Paste Image" ToolTip="click to open popup to paste image"
                                                     CommandName="OpenCopyPasteImagePopup" CommandArgument='<%# Eval("object_PK") %>'>
                                                 </asp:LinkButton>
@@ -722,7 +730,7 @@
         <hr />
         <asp:UpdatePanel runat="server" ID="upModalReorder" UpdateMode="Conditional" OnLoad="upModalReorder_Load">
             <ContentTemplate>
-                <div style="width: 100%; height:auto !important; max-height: 400px; overflow:auto;">
+                <div style="width: 100%; height: auto !important; max-height: 400px; overflow: auto;">
                     <asp:GridView ID="GridReqReorder" runat="server" Width="100%" UseAccessibleHeader="True"
                         GridLines="None" AutoGenerateColumns="false" ShowHeader="true" ShowFooter="false"
                         AllowPaging="false" CssClass="table table-striped table-bordered table-condensed"
@@ -925,4 +933,75 @@
             OnClick="btnViewEditReq_Click" />
     </asp:Panel>
     <!-- End ModalPopupExtender View/Edit Package -->
+    <!-- ModalPopupExtender Hide UnHide Req  -->
+    <asp:HiddenField runat="server" ID="hfHideunHideReq" />
+    <AjaxControlToolkit:ModalPopupExtender ID="mpHideUnHideReq" runat="server" PopupControlID="PanelHideUnhideReq"
+        TargetControlID="hfHideunHideReq" CancelControlID="hfHideunHideReq"
+        BackgroundCssClass="modalBackground">
+    </AjaxControlToolkit:ModalPopupExtender>
+    <asp:Panel ID="PanelHideUnhideReq" runat="server" CssClass="modalPopup" align="left"
+        Style="display: none; width: 35%;">
+        <asp:UpdatePanel runat="server" ID="upHideUnHideReq" UpdateMode="Conditional">
+            <ContentTemplate>
+                <div id="divHideUnHideReqPopupHide" runat="server">
+                    <span style="font-weight: bold;">Hide Requirement</span>
+                    <br />
+                    <br />
+                    <span>This will hide this requirement from various requirement reports. However it will continue to be seen on the Requirements List unless
+                        you filter it out.
+                    </span>
+                    <br />
+                    <br />
+                    <table width="50%">
+                        <tr>
+                            <td align="left" style="font-weight: bold; padding-left: 5px;">Hidden By:
+                            </td>
+                            <td align="left" style="padding-left: 5px;">
+                                <asp:Label ID="lblHideReqPopUpUser" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="font-weight: bold; padding-left: 5px;">Date Hidden:
+                            </td>
+                            <td align="left" style="padding-left: 5px;">
+                                <asp:Label ID="lblHideReqPopUpDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="divHideUnHideReqPopupUnHide" runat="server">
+                    <span style="font-weight: bold;">UnHide Requirement</span>
+                    <br />
+                    <br />
+                    <span>This will unhide this requirement from various requirement reports. However it will always be see on the Requirements List.                        
+                    </span>
+                    <br />
+                    <br />
+                    <table width="50%">
+                        <tr>
+                            <td align="left" style="font-weight: bold; padding-left: 5px;">UnHidden By:
+                            </td>
+                            <td align="left" style="padding-left: 5px;">
+                                <asp:Label ID="lblUnHideReqPopUpUser" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="font-weight: bold; padding-left: 5px;">Date UnHidden:
+                            </td>
+                            <td align="left" style="padding-left: 5px;">
+                                <asp:Label ID="lblUnHideReqPopUpDate" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br />
+                &nbsp;&nbsp;<asp:Button ID="btnHideUnHideReqPopUp" runat="server" Text="Hide/UnHIde" CssClass="customButton" ToolTip="Hide unhide Requirement"
+                    OnClick="btnHideUnHideReqPopUp_Click" />
+                &nbsp;&nbsp;<asp:Button ID="btnHideUnHideReqClose" runat="server" Text="Cancel"
+                    CssClass="customButton" OnClick="btnHideUnHideReqClose_Click"  />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        
+    </asp:Panel>
+    <!-- End ModalPopupExtender Hide UnHide Req  -->
 </asp:Content>

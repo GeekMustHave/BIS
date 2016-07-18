@@ -43,7 +43,7 @@ public partial class Requirements : System.Web.UI.Page
                 {
                     lblPackageName.Text = "Package: " + PrjPkgName;
                     mvRequirements.SetActiveView(vwDefault);
-                    BindReqListDetailed(Session["svSelectedPackage"].ToString(), string.Empty);
+                    BindReqListDetailed(Session["svSelectedPackage"].ToString(), string.Empty,false);
                 }
             }
             // Bind the Custom Button Dopdown for reports
@@ -71,11 +71,35 @@ public partial class Requirements : System.Web.UI.Page
     protected void btnReferesh_Click(object sender, EventArgs e)
     {
         //Refresh button click. REbind the Requiremnts list and make the search text box to foucs.
-        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
         //Due ot some post back issue .reports needs to be rebinded.
         BindReportsDropDown();
         //txtSearchReq.Focus();
         updatePanelReq.Update();
+    }
+    protected void btnHideUnHideReqClose_Click(object sender, EventArgs e)
+    {
+        mpHideUnHideReq.Hide();
+    }
+    protected void btnHideUnHideReqPopUp_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            //USe sp to update requirement  and rebind the grid to update the Updated REquirement.
+            Requirement.HideUnHideRequirement(hfCurentReqId.Value, ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
+            mpHideUnHideReq.Hide();
+            BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
+            updatePanelReq.Update();
+            string msg = "Succesfully Updated Requirement. <br />  This message will disappear in 5 seconds.";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "DisplayNotif", "DisplayNotification('" + msg + "', 'success')", true);
+            //Due to some post back issue .reports needs to be rebinded.
+            BindReportsDropDown();
+            updatePanelReq.Update();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
     protected void btnCreateUpdateReq_Click(object sender, EventArgs e)
     {
@@ -105,7 +129,7 @@ public partial class Requirements : System.Web.UI.Page
                             }
                         }
                         mpCreateUpdateReq.Hide();
-                        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+                        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
                         updatePanelReq.Update();
                         string msg = "Requirement  Created Succesfully. <br />  This message will disappear in 5 seconds.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "DisplayNotif", "DisplayNotification('" + msg + "', 'success')", true);
@@ -127,7 +151,7 @@ public partial class Requirements : System.Web.UI.Page
                             Server.HtmlDecode(htmlEditorCreateUpdateReqNotes.Text), ddlReqComplexity.SelectedValue, ddlReqType.SelectedValue, ddlReqStatus.SelectedValue,
                             ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
                         mpCreateUpdateReq.Hide();
-                        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+                        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
                         updatePanelReq.Update();
                         string msg = "Succesfully Updated Requirement. <br />  This message will disappear in 5 seconds.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "DisplayNotif", "DisplayNotification('" + msg + "', 'success')", true);
@@ -157,7 +181,7 @@ public partial class Requirements : System.Web.UI.Page
     {
         //After closing Reorder popup rebind the Grid on page.
         mpReorderReq.Hide();
-        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
         //Page.Response.Redirect(Page.Request.Url.ToString(), true);
     }
 
@@ -165,7 +189,7 @@ public partial class Requirements : System.Web.UI.Page
     {
         //After closing Reorder popup rebind the Grid on page.
         mpCopyPasteImg.Hide();
-        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+        BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
         //Page.Response.Redirect(Page.Request.Url.ToString(), true);
     }
     protected void btnViewEditReq_Click(object sender, EventArgs e)
@@ -390,7 +414,7 @@ public partial class Requirements : System.Web.UI.Page
         else if (e.CommandName == "DeleteImageFromReq")
         {
             Common.DeleteImageFromReq(Convert.ToInt32(e.CommandArgument.ToString()));
-            BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim());
+            BindReqListDetailed(Session["svSelectedPackage"].ToString(), txtSearchReq.Text.Trim(), chkShowHiddenReq.Checked);
             //txtSearchReq.Focus();
             updatePanelReq.Update();
         }
@@ -413,6 +437,11 @@ public partial class Requirements : System.Web.UI.Page
                 upModalReqHist.Update();
                 mpViewReqHist.Show();
             }
+        }
+        else if (e.CommandName == "HideRequirement" || e.CommandName == "UnHideRequirement")
+        {
+            string guid = e.CommandArgument.ToString();
+            OpenHideUnHideRquirementPopUp(guid, e.CommandName);
         }
         //Due ot some post back issue .reports needs to be rebinded.
         BindReportsDropDown();
@@ -459,9 +488,11 @@ public partial class Requirements : System.Web.UI.Page
             //Ajaxify the Edit and History Links  btnEditProject  btnShowHistReq
             Button btnEditProject = e.Item.FindControl("btnEditProject") as Button;
             Button btnShowHistReq = e.Item.FindControl("btnShowHistReq") as Button;
+            Button btnHideUnHideReq = e.Item.FindControl("btnHideUnhideReq") as Button;
             ImageButton trashImg = e.Item.FindControl("trashImg") as ImageButton;
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnEditProject);
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnShowHistReq);
+            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnHideUnHideReq);
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(trashImg);
         }
     }
@@ -511,15 +542,15 @@ public partial class Requirements : System.Web.UI.Page
 
     #region "Supporting sub routines"
     private void BindReportsDropDown()
-    {        
+    {
         btnDropDownReports.AddReportToDropDown("Orphaned Requirements Report", "~/ReportPages/OrphanedRequirementsReport.aspx");
         btnDropDownReports.AddReportToDropDown("RVD-Requirement Validation Document", "~/RVDReport.aspx");
         btnDropDownReports.AddReportToDropDown("RTM-Requirement Traceability Matrix", "~/RTMReport.aspx");
     }
 
-    private void BindReqListDetailed(string eaguid, string searchText)
+    private void BindReqListDetailed(string eaguid, string searchText, bool showHidden)
     {
-        DataListRequirements.DataSource = Requirement.GetRequestListDetailed(eaguid, searchText);
+        DataListRequirements.DataSource = Requirement.GetRequestListDetailed(eaguid, searchText, showHidden);
         DataListRequirements.DataBind();
     }
     private void DoRequirementEdit(string guid)
@@ -539,6 +570,33 @@ public partial class Requirements : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, this.GetType(), "CallIntialLoadForLabels", "initBindLabels('" + guid + "')", true);
             upCreateUpdateReq.Update();
         }
+    }
+    private void OpenHideUnHideRquirementPopUp(string guid, string commanName)
+    {
+        hfCurentReqId.Value = guid;
+        if (commanName == "HideRequirement")
+        {
+            //Code to make changes for hiding requirement            
+            divHideUnHideReqPopupHide.Visible = true;
+            divHideUnHideReqPopupUnHide.Visible = false;
+            lblHideReqPopUpDate.Text = System.DateTime.Now.ToString("MM/dd/yyyy");
+            lblHideReqPopUpUser.Text = ((CurrentUser)CurrentUser.GetUserDetails()).FullName;     
+            btnHideUnHideReqPopUp.Text = "Hide";
+        }
+        else
+        {
+            //Code to make changes for unhiding requirement            
+            divHideUnHideReqPopupHide.Visible = false ;
+            divHideUnHideReqPopupUnHide.Visible = true;
+            lblUnHideReqPopUpDate.Text = System.DateTime.Now.ToString("MM/dd/yyyy");
+            lblUnHideReqPopUpUser.Text = ((CurrentUser)CurrentUser.GetUserDetails()).FullName;
+            btnHideUnHideReqPopUp.Text = "UnHide";
+        }
+
+        //Show the HideUnHide Req PopUP.
+        upCreateUpdateReq.Update();
+        mpHideUnHideReq.Show();
+        upHideUnHideReq.Update();
     }
     private void BindReqHistory(string eguid)
     {

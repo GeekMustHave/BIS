@@ -20,7 +20,7 @@ using System.Web.UI.HtmlControls;
 /// 7/10/2015           JHRS                Intial Creation 
 /// </summary>
 public partial class Admin_IssueTrack : System.Web.UI.Page
-{    
+{
 
     JiraITClient.JiraClient jClient = new JiraClient();
     /// <summary>
@@ -149,6 +149,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
                 EditITDetails(btnAddComment.CommandName);
                 mvIssueTrack.SetActiveView(vwITVIEWEDIT);
             }
+            SendEmailToSSOAuthor(btnAddComment.CommandArgument, "New Comment Added");
         }
         catch (Exception ex)
         {
@@ -191,6 +192,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
             //mvIssueTrack.SetActiveView(vwITList)
             lblErrorVwEdit.ForeColor = System.Drawing.Color.Green;
             lblErrorVwEdit.Text = "Issue Track Updated Succesfully.!";
+            SendEmailToSSOAuthor(btnAddComment.CommandArgument, "Issue Track Updated");
         }
         catch (Exception ex)
         {
@@ -212,6 +214,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
         string curIt = ViewState["CurrentIssueTrack"].ToString();
         bool aa = jClient.UpdateIssueTransition(curIt, Convert.ToInt32(lb.CommandArgument), ddlITResolutionTypeEdit.SelectedItem.Text);
         EditITDetails(curIt);
+        SendEmailToSSOAuthor(btnAddComment.CommandArgument, "Issue Track Status Updated");
     }
 
     /// <summary>
@@ -282,6 +285,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
                 EditITDetails(curIt);
                 lblErrorVwEdit.ForeColor = System.Drawing.Color.Green;
                 lblErrorVwEdit.Text = "Attachment added.!";
+                SendEmailToSSOAuthor(btnAddComment.CommandArgument, "New Document Uploaded");
             }
             catch (Exception ex)
             {
@@ -299,6 +303,27 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
 
     #region "Supporting subs"
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="issueTrackID"></param>
+    private void SendEmailToSSOAuthor(string issueTrackID, string updateReason)
+    {
+        try
+        {
+            Issue it = jClient.GetIssueTrack(issueTrackID);
+            if (!String.IsNullOrEmpty(it.fields.customfield_11000))
+            {
+                string emailSubject = "BIS-JIRA (" + it.key + ") Update - " + it.fields.summary;
+                string emailBody = "Issue Track : "+ it.key + " <br /> Update Status : " + updateReason + " by BIS-Administrator";
+                Email.SendEmailToAdmins(it.fields.customfield_11000, emailSubject, emailBody);
+            }
+        }
+        catch (Exception)
+        {
+            lblErrorVwEdit.Text = "Issue Track Updated successfully. But cannot Send email";
+        }
+    }
     /// <summary>
     /// Repetative methods to use when we need to switch to IT Lsit view 
     /// </summary>

@@ -32,6 +32,10 @@ public partial class _Packages : System.Web.UI.Page
     }
 
     #region "Button Events"
+    protected void btnSearchProjPackage_Click(object sender, EventArgs e)
+    {
+        BindPackages(txtSearchProjPackage.Text.Trim());
+    }
     protected void btnAddProject_Click(object sender, EventArgs e)
     {
         //reset the controls for the user to create new Project. and show the popup
@@ -71,26 +75,25 @@ public partial class _Packages : System.Web.UI.Page
     protected void btnEditPackage_Click(object sender, EventArgs e)
     {
         Button btn = (Button)sender;
-        switch (btn.CommandName)
+        if (btn.CommandName.ToString().Equals("EditPrjPkg"))
         {
-            case "EditPrjPkg":
-                EditAndPrepareForUpdateProject();
-                mpViewPackageNote.Show();
-                break;
-            case "UpdatePrjPkg":
-                //USe sp PackageUpdateNoteUpdate to update the notes.
-                //Package.UpdatePacakgeNote(hfCurProjPackGuid.Value, Server.HtmlDecode(htmlEditorPrjNotes.Text),
-                //                          ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
-                //changed requirement to update thr project name too.
-                Package.UpdatePackage(hfCurProjPackGuid.Value, txtviewUpdatePrjName.Text.Trim(), Server.HtmlDecode(htmlEditorPrjNotes.Text),
-                              ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
-
-                mpViewPackageNote.Hide();
-                BindPackages();
-                break;
+            EditAndPrepareForUpdateProject();
+            mpViewPackageNote.Show();
         }
-        //For not to duplicate data on browser refresh F5 after update
-        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        else if (btn.CommandName.ToString().Equals("UpdatePrjPkg"))
+        {
+            //USe sp PackageUpdateNoteUpdate to update the notes.
+            //Package.UpdatePacakgeNote(hfCurProjPackGuid.Value, Server.HtmlDecode(htmlEditorPrjNotes.Text),
+            //                          ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
+            //changed requirement to update thr project name too.
+            Package.UpdatePackage(hfCurProjPackGuid.Value, txtviewUpdatePrjName.Text.Trim(), Server.HtmlDecode(htmlEditorPrjNotes.Text),
+                          ((CurrentUser)CurrentUser.GetUserDetails()).User_GUID);
+
+            mpViewPackageNote.Hide();
+            BindPackages();
+            //For not to duplicate data on browser refresh F5 after update
+            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+        }
     }
     #endregion
 
@@ -153,7 +156,7 @@ public partial class _Packages : System.Web.UI.Page
         {
             // Package is selected .Navigate to Requirements page
             Session["svSelectedPackage"] = eguid;
-            Response.Redirect("~/Requirements.aspx",true);
+            Response.Redirect("~/Requirements.aspx", true);
         }
         else if (e.CommandName == "HISTORY")
         {
@@ -224,10 +227,34 @@ public partial class _Packages : System.Web.UI.Page
     /// <summary>
     /// Metod to Bind Project/Packages Grid
     /// </summary>
-    private void BindPackages()
+    private void BindPackages(string searchText = "")
     {
-        GridPackages.DataSource = Package.GetPackages();
-        GridPackages.DataBind();
+        try
+        {
+            lblError.Text = "";
+            DataTable dt = Package.GetPackages().Tables[0];
+            if (!string.IsNullOrEmpty(searchText.Trim()))
+            {
+                for (int i = dt.Rows.Count - 1; i >= 0; i--)
+                {
+                    DataRow dr = dt.Rows[i];
+                    if (dr["DisplayName"].ToString().ToLower().Contains("--") && !(dr["DisplayName"].ToString().ToLower().Trim().Contains(searchText.ToLower().Trim())))
+                    {
+                        dr.Delete();
+                    }
+
+
+                }
+            }
+            DataView dv = dt.DefaultView;
+            GridPackages.DataSource = dv;
+            GridPackages.DataBind();
+        }
+        catch (Exception ex)
+        {
+            lblError.Text = "Error :" + ex.Message.ToString();
+        }
+
     }
     /// <summary>
     /// Method to bind Package History Grid

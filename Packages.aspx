@@ -44,6 +44,16 @@
     <table width="100%">
         <tr>
             <td align="left" style="padding-bottom: 5px;">
+                <span style="font-weight: bold">Search </span>
+            </td>
+            <td>
+                <asp:TextBox ID="txtSearchProjPackage" runat="server" Width="350px" ToolTip="Enter partial Package name to search"></asp:TextBox>
+                &nbsp;&nbsp;
+                <asp:Button ID="btnSearchProjPackage" runat="server" Text="Refresh" CssClass="customButton" OnClick="btnSearchProjPackage_Click" />                                    
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="padding-bottom: 5px;">
                 <span style="font-weight: bold">Packages </span>
             </td>
             <td align="right" style="padding-bottom: 5px;">

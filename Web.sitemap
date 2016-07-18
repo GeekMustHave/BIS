@@ -7,7 +7,7 @@
     <siteMapNode url="~/Packages.aspx" title="Packages" description="Build it Simple" roles="Open,Admin"/>
     <siteMapNode url="~/Requirements.aspx" title="Requirements"  description="Requirements Page" roles="Open,Admin"/>
     <siteMapNode url="~/UseCases.aspx" title="Use-Case" description="Use-Case Page" roles="Open,Admin"/>
-    <siteMapNode url="~/Admin/Reports.aspx" title="Reports" description="Reports Page" roles="Open,Admin"/>
+    <!--<siteMapNode url="~/Admin/Reports.aspx" title="Reports" description="Reports Page" roles="Open,Admin"/>-->
     <siteMapNode url="" title="Admin" description="Admin Menu" roles="Admin" >
       <siteMapNode url="~/Admin/Manage.aspx" title="Manage Stuff" description="Admin Manage Page" roles="Admin"/>
       <siteMapNode url="~/Admin/Manage.aspx?q=21" title="Manage Stuff" description="Admin Manage Page" roles="Admin"/>

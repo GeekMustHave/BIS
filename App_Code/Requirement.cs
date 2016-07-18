@@ -36,13 +36,15 @@ public class Requirement
         return db.ExecuteDataSet(cmd);
     }
 
-    public static DataSet GetRequestListDetailed(string eaGuid, string searchText)
+    public static DataSet GetRequestListDetailed(string eaGuid, string searchText, bool showHidden)
     {
         Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
         DbCommand cmd = db.GetStoredProcCommand("spReqListDetail");
         db.AddInParameter(cmd, "sEA_GUID", DbType.String, eaGuid);
         if (!(string.IsNullOrEmpty(searchText)))
             db.AddInParameter(cmd, "sSearchText", DbType.String, searchText);
+        if (showHidden)
+            db.AddInParameter(cmd, "showHidden", DbType.Int32, 1);
         return db.ExecuteDataSet(cmd);
     }
     public static DataSet GetRequirementHistory(string eaGuid)
@@ -64,6 +66,15 @@ public class Requirement
         db.AddInParameter(cmd, "sNtype_GUID", DbType.String, typeGuid);
         db.AddInParameter(cmd, "sStatus_GUID", DbType.String, statusGuid);
         db.AddInParameter(cmd, "sCreatedBy", DbType.String, updatedbyUId);
+        db.ExecuteNonQuery(cmd);
+    }
+    public static void HideUnHideRequirement(string reqGuid, string updatedbyUId)
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spReqHideUnHide");
+        if (!String.IsNullOrEmpty(reqGuid))
+            db.AddInParameter(cmd, "sReq_GUID", DbType.String, reqGuid);    
+        db.AddInParameter(cmd, "sHiddenBy", DbType.String, updatedbyUId);
         db.ExecuteNonQuery(cmd);
     }
     public static string CreateRequirementDetail(string packageGuid, string reqName, string notes, string updatedbyUId)
