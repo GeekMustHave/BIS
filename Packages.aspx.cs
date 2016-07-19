@@ -34,7 +34,7 @@ public partial class _Packages : System.Web.UI.Page
     #region "Button Events"
     protected void btnSearchProjPackage_Click(object sender, EventArgs e)
     {
-        BindPackages(txtSearchProjPackage.Text.Trim());
+        BindPackages();
     }
     protected void btnAddProject_Click(object sender, EventArgs e)
     {
@@ -227,23 +227,37 @@ public partial class _Packages : System.Web.UI.Page
     /// <summary>
     /// Metod to Bind Project/Packages Grid
     /// </summary>
-    private void BindPackages(string searchText = "")
+    private void BindPackages()
     {
         try
         {
             lblError.Text = "";
+            Dictionary<string, int> kvpairList = new Dictionary<string, int>();            
             DataTable dt = Package.GetPackages().Tables[0];
-            if (!string.IsNullOrEmpty(searchText.Trim()))
-            {
+            if (!string.IsNullOrEmpty(txtSearchProjPackage.Text.Trim()))
+            {                
                 for (int i = dt.Rows.Count - 1; i >= 0; i--)
                 {
                     DataRow dr = dt.Rows[i];
-                    if (dr["DisplayName"].ToString().ToLower().Contains("--") && !(dr["DisplayName"].ToString().ToLower().Trim().Contains(searchText.ToLower().Trim())))
+                    if (!kvpairList.ContainsKey(dr["Project_GUID"].ToString()))                      
                     {
-                        dr.Delete();
+                        kvpairList.Add(dr["Project_GUID"].ToString(), Convert.ToInt32(dr["PackageCount"].ToString()));
                     }
-
-
+                    if (dr["DisplayName"].ToString().ToLower().Contains("--") && !(dr["DisplayName"].ToString().ToLower().Trim().Contains(txtSearchProjPackage.Text.ToLower().Trim())))
+                    {
+                        kvpairList[dr["Project_GUID"].ToString()] = kvpairList[dr["Project_GUID"].ToString()] -1;                       
+                        dr.Delete();                        
+                    }
+                }
+                dt.AcceptChanges();
+                //delete the Projects if there are no packages
+                for (int i = dt.Rows.Count - 1; i >= 0; i--)
+                {
+                    DataRow dr = dt.Rows[i];
+                    if (string.IsNullOrEmpty(dr["Package_GUID"].ToString().Trim()) && kvpairList[dr["Project_GUID"].ToString()] ==0)
+                    {
+                        dr.Delete();    
+                    }
                 }
             }
             DataView dv = dt.DefaultView;
@@ -254,8 +268,19 @@ public partial class _Packages : System.Web.UI.Page
         {
             lblError.Text = "Error :" + ex.Message.ToString();
         }
-
     }
+    private void AddOrUpdateKeyValPair(Dictionary<string, int> dict, string key, int value)
+    {
+        if (dict.ContainsKey(key))
+        {
+            dict[key] = value;
+        }
+        else
+        {
+            dict.Add(key, value);
+        }
+    }
+
     /// <summary>
     /// Method to bind Package History Grid
     /// </summary>
