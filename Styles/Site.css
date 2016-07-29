@@ -297,7 +297,7 @@ div.accountInfo
 
 .loginDisplay a:visited
 {
-    color: #0000FF;
+    color: black;
 }
 
 .loginDisplay a:hover
@@ -311,6 +311,9 @@ div.accountInfo
     color: Red;
 }
 
+.failureNotificationRegister {
+    font-size: 1em !important;
+}
 .bold
 {
     font-weight: bold;
@@ -359,4 +362,12 @@ div.accountInfo
     padding: 20px;
     /* shadow only works in modern browsers.*/
     box-shadow: 7px 7px 5px 0 #404040;
+}
+.loginPageLinkButton {
+    color: Black !important;
+    text-decoration: none;
+}
+.loginPageLinkButton:hover {
+    color: #1d60ff !important;
+    text-decoration: underline;
 }

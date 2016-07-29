@@ -55,7 +55,7 @@
                                         <asp:CheckBox ID="RememberMe" runat="server" AutoPostBack="false" />
                                         <asp:Label ID="RememberMeLabel" runat="server" AssociatedControlID="RememberMe" CssClass="inline">Stay signed in</asp:Label>
                                     </td>
-                                </tr>
+                                </tr>                                
                                 <tr>
                                     <td>
                                     </td>
@@ -64,13 +64,22 @@
                                             OnClick="LoginButton_Click" CssClass="customButton" Width="80px" />
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td align="left">
+                                        <asp:HyperLink ID="btnRegisterUser" EnableViewState="false" CssClass="loginPageLinkButton" runat="server" 
+                                            Text="Register" ToolTip="click to create an account" NavigateUrl="~/Account/Register.aspx">
+                                        </asp:HyperLink>
+                                         &nbsp;|&nbsp;
+                                        <asp:HyperLink ID="btnForgotPassword" EnableViewState="false" CssClass="loginPageLinkButton"  runat="server" 
+                                            Text="Lost your password?" ToolTip="click to reset your password" NavigateUrl="~/Account/PasswordReset.aspx">
+                                        </asp:HyperLink>
+                                    </td>
+                                </tr>
                             </table>
                         </fieldset>
                     </div>
-                    <%--<p>
-                        <asp:HyperLink ID="RegisterHyperLink" runat="server" EnableViewState="false">Register</asp:HyperLink>
-                        if you don't have an account.
-                    </p>--%>
                 </div>
             </td>
         </tr>

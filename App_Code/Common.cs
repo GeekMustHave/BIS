@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data.Common;
+using System.Web.Security;
 
 /// <summary>
 /// Summary description for Common
@@ -56,11 +57,11 @@ public class Common
     /// </summary>
     /// <param name="userIdentityName"></param>
     /// <param name="password"></param>
-    /// <returns>1-Validated , 0 - invalidated, -1 -username not found</returns>
+    /// <returns>1-Validated , 0 - invalidated, 2 for inactive, -1 -username not found</returns>
     public static int ValidateLoginCredentials(string userIdentityName, string password)
     {
         Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
-        DbCommand cmd = db.GetStoredProcCommand("spCheckUser");
+        DbCommand cmd = db.GetStoredProcCommand("spUserValidate");
         db.AddInParameter(cmd, "sUserLogin", DbType.String, userIdentityName);
         db.AddInParameter(cmd, "sPassword", DbType.String, password);
 
@@ -71,14 +72,180 @@ public class Common
         }
         else
         {
-            if (Convert.ToBoolean(dtUserCred.Rows[0]["Validated"]))
-            {
-                return 1;
-            }
+            return Convert.ToInt32(dtUserCred.Rows[0]["Validated"]);
+        }
+    }
+    /// <summary>
+    /// Sub to Create a new user from User Registration Page
+    /// </summary>
+    /// <param name="userName"></param>
+    /// <param name="password"></param>
+    /// <param name="firstName"></param>
+    /// <param name="lastName"></param>
+    /// <param name="Email"></param>
+    /// <param name="Department"></param>
+    /// <returns>status message - "Sucess" or some other Error.</returns>
+    public static string CreateNewUser(string userName, string password, string firstName, string lastName, string Email, string Department)
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spUserNew");
+        db.AddInParameter(cmd, "sUserLoginNew", DbType.String, userName);
+        db.AddInParameter(cmd, "sPassword", DbType.String, password);
+        db.AddInParameter(cmd, "sFirstName", DbType.String, firstName);
+        db.AddInParameter(cmd, "sLastName", DbType.String, lastName);
+        db.AddInParameter(cmd, "sEmail", DbType.String, Email);
+        db.AddInParameter(cmd, "sDepartment", DbType.String, Department);
+        db.AddOutParameter(cmd, "sResponseMessage", DbType.String, 250);
+        db.ExecuteNonQuery(cmd);
+
+        return db.GetParameterValue(cmd, "@sResponseMessage").ToString();
+    }
+    public static string UpdateUser(string userGuid, string userName, string firstName, string lastName, string Email, string Department, bool Active, string roles)
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spUserUpdate");
+        db.AddInParameter(cmd, "sUserGUID", DbType.String, userGuid);
+        db.AddInParameter(cmd, "sUserLoginNew", DbType.String, userName);
+        db.AddInParameter(cmd, "sFirstName", DbType.String, firstName);
+        db.AddInParameter(cmd, "sLastName", DbType.String, lastName);
+        db.AddInParameter(cmd, "sEmail", DbType.String, Email);
+        db.AddInParameter(cmd, "sDepartment", DbType.String, Department);
+        db.AddInParameter(cmd, "bActiveFlag", DbType.Boolean, Active);
+        db.AddInParameter(cmd, "sRoles", DbType.String, roles);
+        db.AddOutParameter(cmd, "sResponseMessage", DbType.String, 250);
+        db.ExecuteNonQuery(cmd);
+
+        return db.GetParameterValue(cmd, "@sResponseMessage").ToString();
+    }
+    /// <summary>
+    /// Sub to REset users passwrd
+    /// </summary>
+    /// <param name="userName">users username</param>
+    /// <param name="Email">users email</param>
+    /// <param name="passwordToken">Temoporary token generated and emailed</param>
+    /// <returns></returns>
+    public static string ResetPassword(string userName, string Email, string passwordToken, ref DataTable UserDetails)
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spUserPasswordReset");
+        if (!String.IsNullOrEmpty(userName))
+            db.AddInParameter(cmd, "sUserLogin", DbType.String, userName);
+        db.AddInParameter(cmd, "sPasswordToken", DbType.String, passwordToken);
+        if (!String.IsNullOrEmpty(Email))
+            db.AddInParameter(cmd, "sEmail", DbType.String, Email);
+        db.AddOutParameter(cmd, "sResponseMessage", DbType.String, 250);
+        //db.ExecuteNonQuery(cmd);
+        DataSet ds = db.ExecuteDataSet(cmd);
+        if (ds.Tables.Count > 0)
+        {
+            UserDetails = ds.Tables[0];
+        }
+
+        return db.GetParameterValue(cmd, "@sResponseMessage").ToString();
+    }
+    public static void SendPasswordResetEmailToUser(string UserName, string inEmail, string TempPassword)
+    {
+        try
+        {
+            string emailSubject = "BIS Temporary Password";
+            string emailBody = "Your password has been reset temporarily. <br />";
+            emailBody += "UserName: " + UserName + "<br /> Temporary Password : " + TempPassword;
+            emailBody += "<br /> Please change your password after you login.";
+            emailBody += "<br /> <br /> - BIS-Administrator";
+            Email.SendEmailToAdmins(inEmail, emailSubject, emailBody);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    /// <summary>
+    /// Sub to update the users password
+    /// </summary>
+    /// <param name="userName">username</param>
+    /// <param name="oldPassword">old password</param>
+    /// <param name="newPassword">new password</param>
+    /// <returns>response as success or error message</returns>
+    public static string ChangePassword(string userGUID, string oldPassword, string newPassword)
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spUserPasswordUpdate");
+        db.AddInParameter(cmd, "sUserGUID", DbType.String, userGUID);
+        db.AddInParameter(cmd, "sPasswordOld", DbType.String, oldPassword);
+        db.AddInParameter(cmd, "sPasswordNew", DbType.String, newPassword);
+        db.AddOutParameter(cmd, "sResponseMessage", DbType.String, 250);
+        db.ExecuteNonQuery(cmd);
+
+        return db.GetParameterValue(cmd, "@sResponseMessage").ToString();
+    }
+    public static void DoLogin(string username, string password, bool rememberMeChecked, ref string outMessage)
+    {
+
+        string usrName = username;
+        int validationResult = ValidateUser(usrName, password);
+        if (validationResult == 1)
+        {
+            //clear any other tickets that are already in the response
+            HttpContext.Current.Response.Cookies.Clear();
+            // Get the User Info and store it in session.
+            string usrRoles = string.Empty;
+
+            usrRoles = Common.PersistsCurrentUsrInfoNRetnRoles(usrName);
+            //usrRoles = (string.IsNullOrEmpty(usrRoles)) ? "Open" : usrRoles; //CompileUseRoles(usrName);
+
+            FormsAuthenticationTicket tkt;
+            string cookiestr;
+            HttpCookie ck;
+            tkt = new FormsAuthenticationTicket(2, usrName, DateTime.Now, DateTime.Now.AddDays(365),
+                                                rememberMeChecked, usrRoles, FormsAuthentication.FormsCookiePath);
+
+            cookiestr = FormsAuthentication.Encrypt(tkt);
+            ck = new HttpCookie(FormsAuthentication.FormsCookieName, cookiestr);
+            if (rememberMeChecked)
+                ck.Expires = tkt.Expiration;
             else
-            {
-                return 0;
-            }
+                ck.Expires = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
+            ck.Path = FormsAuthentication.FormsCookiePath;
+            HttpContext.Current.Response.Cookies.Add(ck);
+
+            //Add  roles to thePrincipal in Global Asax.
+            string strRedirect;
+            strRedirect = HttpContext.Current.Request.QueryString["ReturnUrl"];
+            if (strRedirect == null)
+                strRedirect = "~/Packages.aspx";
+            HttpContext.Current.Response.Redirect(strRedirect, true);
+        }
+        else if (validationResult == 0)
+        {
+            outMessage = "Invalid Username or Password. Try again.";
+            //Response.Redirect("Login.aspx", true);
+        }
+        else if (validationResult == -1)
+        {
+            outMessage = "UserName not Recognized. Try registering first.";
+        }
+        else if (validationResult == 2)
+        {
+            outMessage = "UserID is not longer active. Please contact the Adminstrator.";
+        }
+        else if (validationResult == -99)
+        {
+            outMessage = "Cannot Connect to the DataBase. Contact the Site Administrator.";
+        }
+        else
+        {
+            HttpContext.Current.Response.Redirect("~/UnAuthorized.aspx", true);
+        }
+    }
+    private static int ValidateUser(string username, string password)
+    {
+        try
+        {
+            return Common.ValidateLoginCredentials(username, password);
+        }
+        catch (Exception)
+        {
+            return -99;
         }
 
     }
@@ -124,7 +291,7 @@ public class Common
         Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
         DbCommand cmd = db.GetStoredProcCommand("spImageGetDetails");
         db.AddInParameter(cmd, "iImageID", DbType.Int64, DocId);
-        
+
         return db.ExecuteDataSet(cmd).Tables[0];
     }
 
@@ -170,10 +337,10 @@ public class Common
         HttpContext.Current.Session.Remove("svReportUCDocument");
         HttpContext.Current.Session.Remove("svReportRTM");
         HttpContext.Current.Session.Remove("svReportRVD");
-        HttpContext.Current.Session.Remove("svReportUCD");        
+        HttpContext.Current.Session.Remove("svReportUCD");
     }
     public static string PersistsCurrentUsrInfoNRetnRoles(string usrName)
-    {        
+    {
         DataTable dtUsrInfo = Common.GetCurrentUserInfo(usrName).Tables[0];
         CurrentUser usr;
         string usrRoles = string.Empty;
@@ -185,11 +352,9 @@ public class Common
         {
             usrRoles = dtUsrInfo.Rows[0]["Roles"].ToString().Trim();
             usr = new CurrentUser(dtUsrInfo.Rows[0]["User_GUID"].ToString().Trim(), dtUsrInfo.Rows[0]["FirstName"].ToString().Trim(),
-                                  dtUsrInfo.Rows[0]["Surname"].ToString().Trim(), dtUsrInfo.Rows[0]["E_Mail"].ToString().Trim(),
-                                  (string.IsNullOrEmpty(usrRoles)) ? "Open" : usrRoles);
+                                  dtUsrInfo.Rows[0]["Surname"].ToString().Trim(), dtUsrInfo.Rows[0]["E_Mail"].ToString().Trim(), usrRoles);
 
         }
-
         return usrRoles;
     }
 }

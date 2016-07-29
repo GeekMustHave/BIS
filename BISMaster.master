@@ -10,7 +10,7 @@
     <!-- Just to Keep the Session Alive as long as the app is opened in the user's browser. check init code -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <!-- NOtify Js is used for custom notifications for the user- which dissapears after few seconds -->
-    <script type="text/javascript" src="Plugins/notifIt/notifIt.js"></script>
+    <script type="text/javascript" src="<%=this.ResolveUrl("~/Plugins/notifIt/notifIt.js")%>"></script>
     <link rel="stylesheet" type="text/css" href="Plugins/notifIt/notifIt.css" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
@@ -44,6 +44,7 @@
                                         <asp:MenuItem ImageUrl="~/Images/BIS_PreImage.png" Selectable="false"
                                             ToolTip="Settings">
                                             <asp:MenuItem NavigateUrl="~/Admin/IssueTrack.aspx" Text="Issue Track" ToolTip="Issue Track Page" />
+                                            <asp:MenuItem NavigateUrl="~/Account/ChangePassword.aspx" Text="Change Password" ToolTip="Password Update Page" />
                                             <asp:MenuItem Text="Log Out" ToolTip="Click to Logout" Value="logout"></asp:MenuItem>
                                         </asp:MenuItem>
                                     </Items>

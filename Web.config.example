@@ -41,9 +41,9 @@
       <forms loginUrl="Account/Login.aspx" defaultUrl="Packages.aspx" slidingExpiration="true" timeout="240"/>
     </authentication>
     <sessionState timeout="240" cookieless="false" mode="InProc"/>
-	<machineKey
-		validationKey="YOUR_AUTO_GENERATED_KEY"
-		decryptionKey="YOUR_AUTO_GENERATED_KEY"
+	<machineKey 
+		validationKey="AA4BD67E2778853E31B793F9AEB6E02E6AEF73E87221EADB045A54AABD96FF82218B1F7D6E1B8DF1AB304F0C107D7A642F72DBAFDBB0ACF58E868900BB270690"
+		decryptionKey="DB91397126C7E9EAD1FCE594F3FFDB0B79A6F6612B47A66F71421C8095881AD6"
 		validation="SHA1" decryption="AES" />
     <authorization>
       <deny users="?"/>
@@ -73,8 +73,8 @@
     <customErrors mode="Off"/>
     <httpRuntime requestValidationMode="2.0" maxRequestLength="30720"/>
     <httpHandlers>
-      <add verb="GET" path="CrystalImageHandler.aspx" type="CrystalDecisions.Web.CrystalImageHandler, CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"/>
-    </httpHandlers>
+      <add verb="GET" path="CrystalImageHandler.aspx" type="CrystalDecisions.Web.CrystalImageHandler, CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"/>	  
+	</httpHandlers>
   </system.web>
   <system.webServer>
     <validation validateIntegratedModeConfiguration="false"/>
@@ -91,7 +91,7 @@
       </requestFiltering>
     </security>
     <handlers>
-      <add name="CrystalImageHandler.aspx_GET" verb="GET" path="CrystalImageHandler.aspx" type="CrystalDecisions.Web.CrystalImageHandler, CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"/>
+      <add name="CrystalImageHandler.aspx_GET" verb="GET" path="CrystalImageHandler.aspx" type="CrystalDecisions.Web.CrystalImageHandler, CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"/>	  
     </handlers>
   </system.webServer>
   <location path="Admin">
@@ -124,6 +124,13 @@
       </authorization>
     </system.web>
   </location>
+  <location path="Plugins">
+    <system.web>
+      <authorization>
+        <allow users="*"/>
+      </authorization>
+    </system.web>
+  </location>
   <location path="Admin/IssueTrack.aspx">
     <system.web>
       <authorization>
@@ -147,7 +154,14 @@
         <allow users="*"/>
       </authorization>
     </system.web>
-  </location>
+  </location>  
+  <location path="UnAuthorized.aspx">
+	<system.web>
+		<authorization>
+		  <allow users="*"/>
+		</authorization>
+	</system.web>
+   </location>
   <system.web.extensions>
     <scripting>
       <webServices>

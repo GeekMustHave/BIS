@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Account_Register : System.Web.UI.Page
+public partial class Account_PasswordReset : System.Web.UI.Page
 {
-
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Registerd users shouldn't access this page   
-        if (!Page.IsPostBack)
-        {
-            if (Request.IsAuthenticated)
-            {
-                Response.Redirect("~/Packages.aspx");
-            }
-        }
-    }
 
-    protected void CreateUserButton_Click(object sender, EventArgs e)
+    }
+    protected void btnResetPassword_Click(object sender, EventArgs e)
     {
-        if (Page.IsValid)
+        pnlSuccess.Visible = false;
+        ErrorMessage.Text = "";
+        if (String.IsNullOrEmpty(UserName.Text.Trim()) && String.IsNullOrEmpty(EmailTextBox.Text.Trim()))
+        {
+            ErrorMessage.Text = "Please enter UserName (OR) Email";
+        }
+        else
         {
             try
             {
@@ -48,16 +45,18 @@ public partial class Account_Register : System.Web.UI.Page
                 }
                 else
                 {
-                    string response = Common.CreateNewUser(UserName.Text.Trim(), Password.Text.Trim(), FirstName.Text.Trim(), LastName.Text.Trim(),
-                        Email.Text.Trim(), Department.SelectedValue.ToString());
+                    // Change the Code in Admin User Maitenance Password Reset too.
+                    //Do reset and send email to user the new temp password. and store the salt instead of the temp password.
+                    int lengthOfPassword = 8;
+                    string guid = Guid.NewGuid().ToString().Replace("-", "");
+                    string tempPassword = guid.Substring(0, lengthOfPassword);
+                    DataTable dtUserDetails = new DataTable();
+                    string response = Common.ResetPassword(UserName.Text.Trim(), EmailTextBox.Text.Trim(), tempPassword, ref dtUserDetails);
                     if (response == "Success")
                     {
-                        string outMessage = "";
-                        Common.DoLogin(UserName.Text.Trim(), Password.Text.Trim(), false, ref outMessage);
-                        if (!string.IsNullOrEmpty(outMessage))
-                        {
-                            ErrorMessage.Text = "Account created, but cannot log you at this time. Please contact Admin.";
-                        }
+                        //Send Emial and Make the Panel Visible. to check Email.
+                        Common.SendPasswordResetEmailToUser(dtUserDetails.Rows[0]["UserLogin"].ToString(), dtUserDetails.Rows[0]["Email"].ToString(), tempPassword);
+                        pnlSuccess.Visible = true;
                     }
                     else
                     {
@@ -67,7 +66,7 @@ public partial class Account_Register : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                ErrorMessage.Text = "Error while Creating: " + ex.Message.ToString();
+                ErrorMessage.Text = "Error :" + ex.Message.ToString();
             }
         }
         //Load Recaptha again after partial postback

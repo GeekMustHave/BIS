@@ -4,15 +4,12 @@
     <siteMapNode url="" title=""  description="Build it Simple" roles="*" imageUrl="~/Images/BIS_logo_25X25.png">
       <!--<siteMapNode url="~/Admin/IssueTrack.aspx" title="Issue Track" description="Issue Track Page" roles="Open,Admin"></siteMapNode>-->
     </siteMapNode>
-    <siteMapNode url="~/Packages.aspx" title="Packages" description="Build it Simple" roles="Open,Admin"/>
-    <siteMapNode url="~/Requirements.aspx" title="Requirements"  description="Requirements Page" roles="Open,Admin"/>
-    <siteMapNode url="~/UseCases.aspx" title="Use-Case" description="Use-Case Page" roles="Open,Admin"/>
+    <siteMapNode url="~/Packages.aspx" title="Packages" description="Build it Simple" roles="Reviewer,BA,Admin"/>
+    <siteMapNode url="~/Requirements.aspx" title="Requirements"  description="Requirements Page" roles="Reviewer,BA,Admin"/>
+    <siteMapNode url="~/UseCases.aspx" title="Use-Case" description="Use-Case Page" roles="Reviewer,BA,Admin"/>
     <!--<siteMapNode url="~/Admin/Reports.aspx" title="Reports" description="Reports Page" roles="Open,Admin"/>-->
     <siteMapNode url="" title="Admin" description="Admin Menu" roles="Admin" >
-      <siteMapNode url="~/Admin/Manage.aspx" title="Manage Stuff" description="Admin Manage Page" roles="Admin"/>
-      <siteMapNode url="~/Admin/Manage.aspx?q=21" title="Manage Stuff" description="Admin Manage Page" roles="Admin"/>
-      <siteMapNode url="~/Admin/Manage.aspx?q=2123" title="Admin 2" description="Admin Manage Page" roles="Admin"/>
-      <siteMapNode url="~/Admin/Manage.aspx?q=2124" title="Admin 3" description="Admin Manage Page" roles="Admin"/>
+      <siteMapNode url="~/Admin/UserMaintenance.aspx" title="User Maintenance" description="User Manage Page" roles="Admin"/>
     </siteMapNode>
   </siteMapNode>
 </siteMap>

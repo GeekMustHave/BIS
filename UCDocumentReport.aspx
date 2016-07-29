@@ -31,6 +31,14 @@
                 </td>
             </tr>
             <tr>
+                <td align="right" style="padding-bottom: 5px; padding-right: 10px;">
+                    <span>Do NOT print Hidden Use-Cases</span>
+                </td>
+                <td align="left" style="padding-bottom: 5px;">
+                    <asp:CheckBox ID="chkHiddenUC" runat="server" Checked="true" ToolTip="check to hide hidden usecases" />
+                </td>
+            </tr>
+            <tr>
                 <td align="right" style="padding-bottom: 5px;"></td>
                 <td align="left" style="padding-bottom: 5px;">
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="customButton" OnClick="btnCancel_Click" />

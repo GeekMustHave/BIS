@@ -49,6 +49,7 @@ public partial class UCDocumentReport : System.Web.UI.Page
         CrystalReportHelper crHelper = new CrystalReportHelper();
         CrystalReportViewer1.ReportSource = crHelper.PrepareReportSource("~/Reports/UC_FlowStepDocument06.rpt");
         crHelper.AddParamater("@sPackage_GUID", ddlPackage.SelectedValue.ToString());
+        crHelper.AddParamater("@bDontShowHidden", chkHiddenUC.Checked);
         //crHelper.AddParamater("VersionDesc", txtSubTitle.Text.Trim());
         CrystalReportViewer1.ParameterFieldInfo = crHelper.ParameterFieldInfo();
 
