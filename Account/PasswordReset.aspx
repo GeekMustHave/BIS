@@ -24,7 +24,7 @@
                             </span>
                             <asp:Panel ID="pnlSuccess" runat="server" Visible="false">
                                 <br />
-                                <label style="color: green;">Your Password has been reset successfully. Please check your email for the Temporary password.!</label>
+                                <label style="color: green;">Your Password has been reset successfully. Please check your email for the Temporary password.</label>
                             </asp:Panel>
                             <div style="width: 60%;">
                                 <fieldset class="login">

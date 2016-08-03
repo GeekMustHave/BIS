@@ -32,7 +32,7 @@ public partial class UseCases : System.Web.UI.Page
                 string PrjPkgName = Requirement.GetProjectPackageName(Session["svSelectedPackage"].ToString());
                 if (string.IsNullOrEmpty(PrjPkgName))
                 {
-                    lblError.Text = "Error: No data found for this Project. Cannot View Packages.!";
+                    lblError.Text = "Error: No data found for this Project. Cannot View Packages.";
                 }
                 else
                 {

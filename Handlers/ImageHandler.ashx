@@ -30,7 +30,7 @@ public class ImageHandler : IHttpHandler
                     else
                     {
                         context.Response.ContentType = "text/plain";
-                        context.Response.Write("Only images are allowed.!");
+                        context.Response.Write("Only images are allowed.");
                     }
 
                     //file.SaveAs(fileName);
@@ -39,7 +39,7 @@ public class ImageHandler : IHttpHandler
             else
             {
                 context.Response.ContentType = "text/plain";
-                context.Response.Write(" Only Single Image is allowed.!");
+                context.Response.Write(" Only Single Image is allowed.");
             }
         }
 

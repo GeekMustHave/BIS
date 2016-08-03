@@ -49,7 +49,7 @@ public partial class UseCaseFlows : System.Web.UI.Page
                 string PrjPkgName = Requirement.GetProjectPackageName(Session["svSelectedPackage"].ToString());
                 if (string.IsNullOrEmpty(PrjPkgName))
                 {
-                    lblError.Text = "Error: No data found for this Project. Cannot View Use Case Flows.!";
+                    lblError.Text = "Error: No data found for this Project. Cannot View Use Case Flows.";
                 }
                 else
                 {

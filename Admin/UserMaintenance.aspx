@@ -29,19 +29,19 @@
                     <asp:BoundField DataField="UserName" Visible="true" SortExpression="UserName" HeaderText="User Name"
                         HeaderStyle-Font-Underline="false" ItemStyle-Wrap="false"></asp:BoundField>
                     <asp:BoundField HeaderText="Full Name" DataField="FullName" Visible="true" SortExpression="FullName" ItemStyle-Wrap="false" />
-                    <asp:BoundField HeaderText="Email" DataField="Email" Visible="true" SortExpression="Email" ItemStyle-Wrap="false" />
+                    <asp:BoundField HeaderText="Email" DataField="Email" Visible="true" SortExpression="Email" />
                     <asp:BoundField HeaderText="Roles" DataField="Roles" Visible="true" SortExpression="Roles" />
                     <asp:BoundField HeaderText="Last Login" DataField="LastLoginDate" Visible="true" DataFormatString="{0:d}"
                         SortExpression="LastLoginDate" />
                     <asp:BoundField HeaderText="Active" DataField="Active" Visible="true" SortExpression="Active" />
-                    <%--<asp:BoundField HeaderText="Department" DataField="Department" Visible="true" SortExpression="Department" />--%>
-                    <asp:TemplateField>
+                    <asp:BoundField HeaderText="Department" DataField="Department" Visible="true" SortExpression="Department" />
+                    <asp:TemplateField ItemStyle-Wrap="false">
                         <ItemTemplate>
                             <asp:LinkButton ID="btnUserEdit" runat="server" Text="Edit" ToolTip="view User" CommandName="UserEdit"
                                 CommandArgument='<%# Container.DataItemIndex %>'></asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField>
+                    <asp:TemplateField ItemStyle-Wrap="false">
                         <ItemTemplate>
                             <asp:LinkButton ID="btnUserResetPassword" runat="server" Text="Reset Password" ToolTip="Reset Password" CommandName="UserResetPassword"
                                 CommandArgument='<%# Container.DataItemIndex %>'></asp:LinkButton>

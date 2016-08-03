@@ -161,10 +161,10 @@
                                                 <span style="text-decoration: underline;">Password Criteria:</span>
                                                 <ul>
                                                     <li>Between 8 to 20 characters long</li>
-                                                    <li>Atleast 1 uppercase character</li>
-                                                    <li>Atleast 1 lowercase character</li>
-                                                    <li>Atleast 1 special character</li>
-                                                    <li>Atleast 1 number</li>
+                                                    <li>At least 1 uppercase character</li>
+                                                    <li>At least 1 lowercase character</li>
+                                                    <li>At least 1 special character</li>
+                                                    <li>At least 1 number</li>
                                                 </ul>
                                             </td>
                                         </tr>

@@ -90,11 +90,10 @@ public partial class Admin_UserMaintenance : System.Web.UI.Page
         if (e.CommandName == "UserEdit")
         {
             lblErrorVwList.Text = "";
-
             try
             {
                 lblErrorVwEdit.Text = String.Empty;
-                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                int rowIndex = Convert.ToInt32(e.CommandArgument) - GridUsersList.PageSize * GridUsersList.PageIndex;
                 string userName = GridUsersList.DataKeys[rowIndex]["UserName"].ToString();
                 string usrEmail = GridUsersList.DataKeys[rowIndex]["Email"].ToString();
                 string FirstName = GridUsersList.DataKeys[rowIndex]["FirstName"].ToString();
@@ -138,7 +137,7 @@ public partial class Admin_UserMaintenance : System.Web.UI.Page
             lblErrorVwList.Text = "";
             try
             {
-                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                int rowIndex = Convert.ToInt32(e.CommandArgument) - GridUsersList.PageSize * GridUsersList.PageIndex;
                 lblErrorVwList.Text = String.Empty;
                 string userName = GridUsersList.DataKeys[rowIndex]["UserName"].ToString();
                 string usrEmail = GridUsersList.DataKeys[rowIndex]["Email"].ToString();
@@ -215,7 +214,7 @@ public partial class Admin_UserMaintenance : System.Web.UI.Page
             }
             if (!atleastOneRole)
             {
-                lblErrorVwEdit.Text = "Error : Please select atleast one role";
+                lblErrorVwEdit.Text = "Error : Please select at least one role";
             }
             else
             {

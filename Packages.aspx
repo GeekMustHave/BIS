@@ -120,7 +120,7 @@
             </asp:TemplateField>
         </Columns>
         <EmptyDataTemplate>
-            Sorry.! nothing to Display
+            Sorry, nothing to Display
         </EmptyDataTemplate>
     </asp:GridView>
     <br />
@@ -216,7 +216,7 @@
                             SortExpression="CreatedByName" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                     </Columns>
                     <EmptyDataTemplate>
-                        Sorry.! nothing to Display
+                        Sorry, nothing to Display
                     </EmptyDataTemplate>
                 </asp:GridView>
                 <br />

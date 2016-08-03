@@ -44,12 +44,13 @@ public partial class BISMaster : System.Web.UI.MasterPage
                 try
                 {
                     Common.PersistsCurrentUsrInfoNRetnRoles(HttpContext.Current.User.Identity.Name);
+                    fullName.Text = ((CurrentUser)CurrentUser.GetUserDetails()).FullName;
                 }
                 catch (Exception)
                 {
                     LogoutUser();
                 }                
-                fullName.Text = HttpContext.Current.User.Identity.Name;                
+                //fullName.Text = HttpContext.Current.User.Identity.Name;                
             }
         }
     }

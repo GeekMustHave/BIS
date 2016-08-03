@@ -191,7 +191,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
             //BindIssueTrackGrid()
             //mvIssueTrack.SetActiveView(vwITList)
             lblErrorVwEdit.ForeColor = System.Drawing.Color.Green;
-            lblErrorVwEdit.Text = "Issue Track Updated Succesfully.!";
+            lblErrorVwEdit.Text = "Issue Track Updated Succesfully.";
             SendEmailToSSOAuthor(btnAddComment.CommandArgument, "Issue Track Updated");
         }
         catch (Exception ex)
@@ -284,7 +284,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
                 jClient.AddNewAttachment(curIt, fileUpload.PostedFile.InputStream, fileUpload.FileName);
                 EditITDetails(curIt);
                 lblErrorVwEdit.ForeColor = System.Drawing.Color.Green;
-                lblErrorVwEdit.Text = "Attachment added.!";
+                lblErrorVwEdit.Text = "Attachment added Successfully.";
                 SendEmailToSSOAuthor(btnAddComment.CommandArgument, "New Document Uploaded");
             }
             catch (Exception ex)

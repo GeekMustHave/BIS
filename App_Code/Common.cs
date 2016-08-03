@@ -45,7 +45,7 @@ public class Common
         DbCommand cmd = db.GetStoredProcCommand("spLabelCombo");
         return db.ExecuteDataSet(cmd);
     }
-    public static DataSet GetCurrentUserInfo(string userIdentityName)
+    public static DataSet GetCurrentUserInfoAndUpdateLastLogin(string userIdentityName)
     {
         Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
         DbCommand cmd = db.GetStoredProcCommand("spUserDetails");
@@ -226,7 +226,7 @@ public class Common
         }
         else if (validationResult == 2)
         {
-            outMessage = "UserID is not longer active. Please contact the Adminstrator.";
+            outMessage = "UserID is not longer active. Contact the Site Administrator.";
         }
         else if (validationResult == -99)
         {
@@ -339,9 +339,14 @@ public class Common
         HttpContext.Current.Session.Remove("svReportRVD");
         HttpContext.Current.Session.Remove("svReportUCD");
     }
+    /// <summary>
+    /// Use this as a login compoment for User. Get the Authenticated User Details and update the LastLogin Date
+    /// </summary>
+    /// <param name="usrName">USerName</param>
+    /// <returns>User Roles</returns>
     public static string PersistsCurrentUsrInfoNRetnRoles(string usrName)
     {
-        DataTable dtUsrInfo = Common.GetCurrentUserInfo(usrName).Tables[0];
+        DataTable dtUsrInfo = Common.GetCurrentUserInfoAndUpdateLastLogin(usrName).Tables[0];
         CurrentUser usr;
         string usrRoles = string.Empty;
         if (dtUsrInfo.Rows.Count == 0)

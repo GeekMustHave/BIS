@@ -143,7 +143,7 @@ public partial class _Packages : System.Web.UI.Page
             DataTable dt = Package.GePackageNoteDetails(eguid).Tables[0];
             if (dt.Rows.Count == 0)
             {
-                lblError.Text = "Error: No data found for this Project. Cannot Edit.!";
+                lblError.Text = "Error: No data found for this Project. Cannot Edit.";
             }
             else
             {
@@ -164,7 +164,7 @@ public partial class _Packages : System.Web.UI.Page
             DataTable dt = Package.GePackageNoteDetails(eguid).Tables[0];
             if (dt.Rows.Count == 0)
             {
-                lblError.Text = "Error: No data found for this Project. Cannot View History.!";
+                lblError.Text = "Error: No data found for this Project. Cannot View History.";
             }
             else
             {

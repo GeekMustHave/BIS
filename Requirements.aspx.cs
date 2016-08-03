@@ -37,7 +37,7 @@ public partial class Requirements : System.Web.UI.Page
                 string PrjPkgName = Requirement.GetProjectPackageName(Session["svSelectedPackage"].ToString());
                 if (string.IsNullOrEmpty(PrjPkgName))
                 {
-                    lblError.Text = "Error: No data found for this Project. Cannot View Packages.!";
+                    lblError.Text = "Error: No data found for this Project. Cannot View Packages.";
                 }
                 else
                 {
@@ -387,7 +387,7 @@ public partial class Requirements : System.Web.UI.Page
                 flName = "dummyName";
             //APPDMCAL.InsertToHImages("TempImg_", dataType, dataSize, Based64BinaryString);
             Common.AddNewImage(objectID, flName, dataType, dataSize, Based64BinaryString);
-            return "Image Inserted to SQLServer Successfully.!";
+            return "Image Inserted to SQLServer Successfully.";
         }
         catch (Exception ex)
         {
