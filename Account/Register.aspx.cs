@@ -49,15 +49,23 @@ public partial class Account_Register : System.Web.UI.Page
                 else
                 {
                     string response = Common.CreateNewUser(UserName.Text.Trim(), Password.Text.Trim(), FirstName.Text.Trim(), LastName.Text.Trim(),
-                        Email.Text.Trim(), Department.SelectedValue.ToString());
+                        EmailTextBox.Text.Trim(), Department.SelectedValue.ToString());
                     if (response == "Success")
                     {
-                        string outMessage = "";
-                        Common.DoLogin(UserName.Text.Trim(), Password.Text.Trim(), false, ref outMessage);
-                        if (!string.IsNullOrEmpty(outMessage))
+                        try
                         {
-                            ErrorMessage.Text = "Account created, but cannot log you at this time. Please contact Admin.";
+                            //Send Email to User about Registration SuccessFull
+                            SendRegstartionSuccessEmail(EmailTextBox.Text.Trim(), UserName.Text.Trim(), FirstName.Text.Trim() + ", " + LastName.Text.Trim());
+
+                            //Send Email To Admin about the new New User Regisration.
+                            SendAdminEmailForNewRegistration(EmailTextBox.Text.Trim(), UserName.Text.Trim(), FirstName.Text.Trim() + ", " + LastName.Text.Trim(), Department.SelectedValue.ToString());
                         }
+                        catch (Exception)
+                        {
+                            // ignore Exception and log in furutre.. canot send email to admin and user
+                        }
+                        //REdirect to RegistrationSuccess Page
+                        Response.Redirect("~/Account/RegistrationSuccess.aspx?FromUrl=" + Request.Url.ToString(), true);
                     }
                     else
                     {
@@ -73,5 +81,25 @@ public partial class Account_Register : System.Web.UI.Page
         //Load Recaptha again after partial postback
         ScriptManager.RegisterStartupScript(updatePanelReq, updatePanelReq.GetType(), "loadCaptcha", "grecaptcha.render('recaptcha', {'sitekey': '6LfpNyYTAAAAAL2xoyDHp6u7r-3kP2PaUARua-r8' });", true);
         updatePanelReq.Update();
+    }
+    private void SendRegstartionSuccessEmail(string userEmail, string userName, string userFullName)
+    {
+
+        string emailSubject = "BIS Registration Successfull";
+        string emailBody = "<p> " + userFullName + ", <br /> You have successfully registered as a new user on the system. " + "<br /> Your UserName : " + userName +
+        "<br /> However, your account is <i>NOT</i> active untill the Administrator approves it, you will recieve another email when that has occured.<br /><br />" +
+        "-BIS Admin.</p>";
+        Email.SendEmail(userEmail, emailSubject, emailBody);
+    }
+    private void SendAdminEmailForNewRegistration(string userEmail, string userName, string userFullName, string userDepartment)
+    {
+        string emailSubject = "BIS New User Registered";
+        string emailBody = "<p>New User has successfully registered on the system. Below are the details."
+            + "<br />  UserName : " + userName
+            + "<br />  FullName : " + userFullName
+            + "<br />  UserEmail : " + userEmail
+            + "<br />  UserDepatment : " + userDepartment
+            + "<br /><br /> Please logon to <a href='http://bis.pwc-saas.com/Admin/UserMaintenance.aspx'>BIS User Maint</a> to activate the user.</p>";
+        Email.SendEmailToAdmin(emailSubject, emailBody);
     }
 }

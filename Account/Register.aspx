@@ -72,15 +72,15 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="right" style="padding-right: 10px;">
-                                                            <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="Email">E-mail:</asp:Label>
+                                                            <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="EmailTextBox">E-mail:</asp:Label>
                                                         </td>
                                                         <td align="left">
-                                                            <asp:TextBox ID="Email" runat="server" CssClass="textEntry"></asp:TextBox>
-                                                            <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email"
+                                                            <asp:TextBox ID="EmailTextBox" runat="server" CssClass="textEntry"></asp:TextBox>
+                                                            <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="EmailTextBox"
                                                                 CssClass="failureNotification" ErrorMessage="E-mail is required." ToolTip="E-mail is required."
                                                                 ValidationGroup="RegisterUserValidationGroup">*</asp:RequiredFieldValidator>
                                                             <asp:RegularExpressionValidator ID="regexEmailValid" runat="server" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
-                                                                CssClass="failureNotification" ControlToValidate="Email" ErrorMessage="Invalid Email Format." ValidationGroup="RegisterUserValidationGroup">*
+                                                                CssClass="failureNotification" ControlToValidate="EmailTextBox" ErrorMessage="Invalid Email Format." ValidationGroup="RegisterUserValidationGroup">*
                                                             </asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>

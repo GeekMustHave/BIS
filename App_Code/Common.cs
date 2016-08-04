@@ -45,12 +45,24 @@ public class Common
         DbCommand cmd = db.GetStoredProcCommand("spLabelCombo");
         return db.ExecuteDataSet(cmd);
     }
-    public static DataSet GetCurrentUserInfoAndUpdateLastLogin(string userIdentityName)
+    public static DataSet GetCurrentUserInfo(string userIdentityName)
     {
         Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
         DbCommand cmd = db.GetStoredProcCommand("spUserDetails");
         db.AddInParameter(cmd, "sUserLogin", DbType.String, userIdentityName);
         return db.ExecuteDataSet(cmd);
+    }
+    /// <summary>
+    /// Sub to run when user logins or reauthenticates.
+    /// </summary>
+    /// <param name="userIdentityName"></param>
+    public static void UpdateCurrentUserLastLogin(string userIdentityName)
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spUserUpdateLastLogin");
+
+        db.AddInParameter(cmd, "sUserLogin", DbType.String, userIdentityName);
+        db.ExecuteNonQuery(cmd);
     }
     /// <summary>
     /// validates the username and password 
@@ -152,13 +164,27 @@ public class Common
             emailBody += "UserName: " + UserName + "<br /> Temporary Password : " + TempPassword;
             emailBody += "<br /> Please change your password after you login.";
             emailBody += "<br /> <br /> - BIS-Administrator";
-            Email.SendEmailToAdmins(inEmail, emailSubject, emailBody);
+            Email.SendEmail(inEmail, emailSubject, emailBody);
         }
         catch (Exception)
         {
             throw;
         }
     }
+    /// <summary>
+    /// Function to Get ADMIN user's EMailID from the daatabase
+    /// </summary>
+    /// <returns></returns>
+    public static string GetAdminEmailID()
+    {
+        Database db = DatabaseFactory.CreateDatabase("DefaultConnString");
+        DbCommand cmd = db.GetStoredProcCommand("spUserGetAdminEmail");        
+        db.AddOutParameter(cmd, "sAdminEmail", DbType.String, 100);
+        db.ExecuteNonQuery(cmd);
+
+        return db.GetParameterValue(cmd, "@sAdminEmail").ToString();
+    }
+
     /// <summary>
     /// Sub to update the users password
     /// </summary>
@@ -346,7 +372,8 @@ public class Common
     /// <returns>User Roles</returns>
     public static string PersistsCurrentUsrInfoNRetnRoles(string usrName)
     {
-        DataTable dtUsrInfo = Common.GetCurrentUserInfoAndUpdateLastLogin(usrName).Tables[0];
+        DataTable dtUsrInfo = Common.GetCurrentUserInfo(usrName).Tables[0];
+        Common.UpdateCurrentUserLastLogin(usrName);
         CurrentUser usr;
         string usrRoles = string.Empty;
         if (dtUsrInfo.Rows.Count == 0)

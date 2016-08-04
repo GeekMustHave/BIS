@@ -53,7 +53,7 @@ public partial class Account_ChangePassword : System.Web.UI.Page
             string emailSubject = "BIS Password Updated";
             string emailBody = "Your password has been updated successfully. <br />";
             emailBody += "<br /> <br /> - BIS-Administrator";
-            Email.SendEmailToAdmins(inEmail, emailSubject, emailBody);
+            Email.SendEmail(inEmail, emailSubject, emailBody);
         }
         catch (Exception)
         {

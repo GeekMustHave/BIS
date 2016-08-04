@@ -80,6 +80,14 @@ public partial class Admin_UserMaintenance : System.Web.UI.Page
             lblErrorVwList.Text = "Error :" + ex.Message.ToString();
         }
     }
+    private void SendAccessUpdateEmailToUser(string userEmail, string userFullName, string usrRoles)
+    {
+        string emailSubject = "BIS User Access Granted";
+        string emailBody = "<p>" + userFullName + ", <br /> Your account access has been granted/updated by BIS Admin, with the following roles."
+            + "<br /> Roles: " + usrRoles
+            + "<br /><br /> Please logon to <a href='http://bis.pwc-saas.com/'>BIS</a> with your new userid and password .</p>";
+        Email.SendEmailToAdmin(emailSubject, emailBody);
+    }
     #endregion
 
     #region "Grid Events"
@@ -230,19 +238,39 @@ public partial class Admin_UserMaintenance : System.Web.UI.Page
                 {
                     allRoles = allRoles.Substring(0, allRoles.Length - 1);
                 }
-                string response = Common.UpdateUser(btnUpdateUser.CommandArgument, txtUserName.Text.Trim(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
+                try
+                {
+                    string response = Common.UpdateUser(btnUpdateUser.CommandArgument, txtUserName.Text.Trim(), txtFirstName.Text.Trim(), txtLastName.Text.Trim(),
                                 txtEmail.Text.Trim(), ddlDepartment.SelectedValue.ToString(), chkActive.Checked, allRoles);
-                if (response == "Success")
-                {
-                    string notificationMsg = "User info updated successfully for <b>" + txtUserName.Text + "</b>."
-                                    + "<br />  This message will disappear in 5 seconds.";
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenSuccessNotification", "OpenSuccessNotification('" + notificationMsg + "')", true);
-                    ViewUsersListView();
+                    if (response == "Success")
+                    {
+                        //Send Email to User If the Active checkbos is checkd. .No Email when user is deactivated
+                        if (chkActive.Checked)
+                        {
+                            try
+                            {
+                                SendAccessUpdateEmailToUser(txtEmail.Text.Trim(), txtFirstName.Text.Trim() + ", " + txtLastName.Text.Trim(), allRoles);
+                            }
+                            catch (Exception exin)
+                            {
+                                throw new Exception("Update Successfull, Cannot send Email to user" + exin.Message.ToString());
+                            }                            
+                       }
+                        string notificationMsg = "User info updated successfully for <b>" + txtUserName.Text + "</b>."
+                                        + "<br />  This message will disappear in 5 seconds.";
+                        Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenSuccessNotification", "OpenSuccessNotification('" + notificationMsg + "')", true);
+                        ViewUsersListView();
+                    }
+                    else
+                    {
+                        lblErrorVwEdit.Text = "Error: " + response;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    lblErrorVwEdit.Text = "Error: " + response;
+                    lblErrorVwEdit.Text = "Error: " + ex.Message.ToString();
                 }
+
             }
         }
     }

@@ -260,7 +260,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
             string emailSubject = "[JIRA] (" + iTkey + ") " + txtSummaryNew.Text.Trim();
             string emailBody = Email.PrepareITCreateEmailBody(iTkey, ((CurrentUser)CurrentUser.GetUserDetails()).FullName, "Task", DateTime.Now.ToString(),
                                 ddlPriorityNew.SelectedValue, txtSummaryNew.Text.Trim(), txtDescriptionNew.Text.Trim());
-            Email.SendEmailToAdmins("john.schuster@mindspring.com", emailSubject, emailBody);
+            Email.SendEmail("john.schuster@mindspring.com", emailSubject, emailBody);
         }
         catch (Exception ex)
         {
@@ -316,7 +316,7 @@ public partial class Admin_IssueTrack : System.Web.UI.Page
             {
                 string emailSubject = "BIS-JIRA (" + it.key + ") Update - " + it.fields.summary;
                 string emailBody = "Issue Track : "+ it.key + " <br /> Update Status : " + updateReason + " by BIS-Administrator";
-                Email.SendEmailToAdmins(it.fields.customfield_11000, emailSubject, emailBody);
+                Email.SendEmail(it.fields.customfield_11000, emailSubject, emailBody);
             }
         }
         catch (Exception)
