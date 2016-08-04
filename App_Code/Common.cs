@@ -252,7 +252,7 @@ public class Common
         }
         else if (validationResult == 2)
         {
-            outMessage = "UserID is not longer active. Contact the Site Administrator.";
+            outMessage = "UserID is no longer active. Contact the Site Administrator.";
         }
         else if (validationResult == -99)
         {
